@@ -56,7 +56,15 @@ cohorts.put ( '/:id' , ( req , res ) => {
        res.redirect ('/');
   });
 });
+
 // Delete : DELETE '/products/:id'      7/7
+cohorts.delete ( '/:id' , ( req , res) => {
+  Cohort.findByIdAndRemove ( req.params.id , ( err , product ) => {
+    if ( err ) { console.log ( err ); }
+      res.send( 'blue skies' );
+  })
+});
+
 
 
 

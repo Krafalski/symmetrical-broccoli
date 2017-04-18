@@ -21,19 +21,32 @@ var list = function (){
       console.log ('the data was grabbed' , response[0]._id);
       var $ul         = $( '<ul>' );
        response.forEach( function ( e ){
-         var $li      = $( '<li>' );
-         var $button  = $( 'button' );
-         var $x       = $( '<a>' ).attr( 'href', '/cohort/delete' ).append( $button ).text('X').css('background-color' , 'red' );
-         $li.attr('id', e._id);
-         $li.text( e.name ).append( $x );
-         $li.on( 'click', function ( ) {
+         var $body    = $(document.body);
+         var $p      = $( '<p>' );
+         var $button  = $( '<button>' );
+         var $input   = $( '<input>' );
+         var $x       = $( '<form>' ).attr('action', '/cohorts/' + e._id + '?_method=DELETE' ).attr('method' , 'POST')
+
+         $input.attr('type' ,'submit').attr ('value' ,'X').css('background-color' , 'red' );
+         $x.append( $input );
+
+
+
+        //  $x.on('click', function (){
+         //
+        //  });
+         $p.attr('id', e._id);
+         $p.text( e.name )
+
+         $p.on( 'click', function ( ) {
            console.log('clifidiid');
            var $form   = $ ( '<form>' ).attr('action', '/cohorts/' + e._id + '?_method=PUT' ).attr('method' , 'POST') ;
            var $input  = $ ( '<input>' ).attr( 'value' , e.name ).attr( 'name' , 'name' );
            $form.append( $input );
-           $li.replaceWith( $form );
+           $p.replaceWith( $form );
          });
-         $li.appendTo( $ul );
+         $p.appendTo( $body );
+         $body.append( $x );
        });
 
         $( '.content' ).append( $ul );
