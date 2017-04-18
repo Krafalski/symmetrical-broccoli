@@ -1,0 +1,18 @@
+{
+  "name": "student-randomizer",
+  "version": "1.0.0",
+  "description": "An app to randomize student order and create student groups",
+  "main": "server.js",
+  "author": "K. Rafalski",
+  "license": "MIT",
+  "dependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^6.4.1",
+    "babel-preset-es2015": "^6.24.1",
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "method-override": "^2.3.8",
+    "mongoose": "^4.9.5",
+    "webpack": "^2.4.1"
+  }
+}

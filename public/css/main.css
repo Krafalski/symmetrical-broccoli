@@ -1,0 +1,11 @@
+body {
+  text-align: center;
+}
+
+table {
+  margin:auto;
+}
+
+.youDidItCongrats {
+  opacity: 0.3;
+}
