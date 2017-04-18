@@ -1,5 +1,15 @@
+var makeList = function (){}
+
+var editCohortName = function (liName, liID){
+  //editCohortName( e.name, e._id)
+  var $form   = $ ( '<form>' ).attr('action', '/cohorts/' + liID + '?_method=PUT' ).attr('method' , 'POST') ;
+  var $input  = $ ( '<input>' ).attr( 'value' , liName ).attr( 'name' , 'name' );
+  $form.append( $input );
+  $('.content').append( $form );
+}
+
 var list = function (){
-  console.log('lcick');
+
   $.ajax({
     url: '/cohorts',
 
@@ -8,13 +18,21 @@ var list = function (){
     dataType: 'json',
 
     success: function ( response ){
-      console.log ('the data was grabbed' , response);
-      var $ul = $( '<ul>');
-       response.forEach(function (e){
-         var $li = $( '<li>' );
-         var $x  = $( '<button>' ).text('X').css('background-color' , 'red');
-         var $edit=$( '<button>' ).text('edit').css('background-color' , 'silver');;
-         $li.text( e.name ).append( $edit ).append( $x );
+      console.log ('the data was grabbed' , response[0]._id);
+      var $ul         = $( '<ul>' );
+       response.forEach( function ( e ){
+         var $li      = $( '<li>' );
+         var $button  = $( 'button' );
+         var $x       = $( '<a>' ).attr( 'href', '/cohort/delete' ).append( $button ).text('X').css('background-color' , 'red' );
+         $li.attr('id', e._id);
+         $li.text( e.name ).append( $x );
+         $li.on( 'click', function ( ) {
+           console.log('clifidiid');
+           var $form   = $ ( '<form>' ).attr('action', '/cohorts/' + e._id + '?_method=PUT' ).attr('method' , 'POST') ;
+           var $input  = $ ( '<input>' ).attr( 'value' , e.name ).attr( 'name' , 'name' );
+           $form.append( $input );
+           $li.replaceWith( $form );
+         });
          $li.appendTo( $ul );
        });
 
@@ -36,7 +54,7 @@ var newForm = function (){
     type: 'GET',
 
     success: function ( response ) {
-      console.log( 'the form was loaded', response);
+      // console.log( 'the form was loaded', response);
       $( '.content' ).html(response);
       var $submit = $ ( '.submit' );
       $submit.on('click', function (){
@@ -50,7 +68,7 @@ var newForm = function (){
           dataType: 'json',
 
           success: function ( response ){
-            console.log ('the data was created' , response);
+            // console.log ('the data was created' , response);
               $( '.content' ).html(response);
           },
           error: function ( error ) {
@@ -66,7 +84,7 @@ var newForm = function (){
 
     },
     error: function ( error ) {
-      console.log ( 'the page was not loaded', error);
+      console.log ( 'the form was not loaded', error);
     },
 
     complete: function (xhr , status) {
