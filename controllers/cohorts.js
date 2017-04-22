@@ -10,7 +10,7 @@ const cohorts         = express.Router();
 //------------------------
 
 const Cohort        = require ( '../models/cohorts' );
-const Student       = require ( '../models/members' );
+const Member       = require ( '../models/members' );
 
 //___________________
 //See json Route

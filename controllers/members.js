@@ -13,7 +13,7 @@ const Member       = require ( '../models/members' );
 
 
 members.get ('/' , ( req , res ) => {
-  Student.find ({} , ( error , foundMembers ) => {
+  Member.find ({} , ( error , foundMembers ) => {
     if ( error ){ console.log ( error )}
     res.send( foundMembers );
   })

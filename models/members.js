@@ -21,7 +21,7 @@ const memberSchema       = new Schema ({
 
 });
 
-const Member            = mongoose.model( 'Student' , memberSchema);
+const Member            = mongoose.model( 'Member' , memberSchema);
 
 
 
