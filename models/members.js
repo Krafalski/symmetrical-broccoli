@@ -8,20 +8,24 @@ const Schema            = mongoose.Schema;
 //------------------------
 // Set Up Schema
 //------------------------
-const studentSchema       = new Schema ({
-  name          : {
+const memberSchema       = new Schema ({
+  firstName          : {
     type        : String,
     required    : [true, 'Person needs a name']
   },
-  participating : Boolean
+  lastName      : String,
+  nickname      : String,
+  position      : String,
+  participating : Boolean,
+  notes         : String
 
 });
 
-const Student            = mongoose.model( 'Student' , studentSchema);
+const Member            = mongoose.model( 'Student' , memberSchema);
 
 
 
 //------------------------
 // Module Exports
 //------------------------
-module.exports           = Student;
+module.exports           = Member;

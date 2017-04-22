@@ -18,7 +18,7 @@ var list = function (){
     dataType: 'json',
 
     success: function ( response ){
-      console.log ('the data was grabbed' , response[0]._id);
+      // console.log ('the data was grabbed' , response[0]._id);
       var $ul         = $( '<ul>' );
        response.forEach( function ( e ){
          var $body    = $(document.body);
@@ -29,40 +29,84 @@ var list = function (){
 
          $input.attr('type' ,'submit').attr ('value' ,'X').css('background-color' , 'red' );
          $x.append( $input );
-
-
-
-        //  $x.on('click', function (){
-         //
-        //  });
+         //add attribute so cohort name can be edited
          $p.attr('id', e._id);
          $p.text( e.name )
+         //edit cohort name:
+         var id = e._id
+         $p.on( 'click', newMemberForm(id) );
+         console.log('do your new member thing');
+         $.ajax({ //ajax # 2
+          url:'../html/new_member_form.html',
 
-         $p.on( 'click', function ( ) {
-           console.log('clifidiid');
-           var $form   = $ ( '<form>' ).attr('action', '/cohorts/' + e._id + '?_method=PUT' ).attr('method' , 'POST') ;
-           var $input  = $ ( '<input>' ).attr( 'value' , e.name ).attr( 'name' , 'name' );
-           $form.append( $input );
-           $p.replaceWith( $form );
-         });
+          type: 'GET',
+  //
+          success: function ( response ) {
+            console.log( 'the form was loaded', response);
+            $( '.content' ).html(response);
+            var $content =   $( '.content' ).html(response);
+            var $form  = $('form');
+            var $input = $('<input>').attr('type' , 'hidden' ).attr('value', e._id).attr('name', 'cohortId');
+            $form.prepend($input);
+            var $submit = $ ( '.submit' );
+            $submit.on('click', function (){
+              $.ajax({
+                url: '/members',
+
+                type: 'POST',
+
+                data: data,
+
+                dataType: 'json',
+
+                success: function ( response ){
+                  console.log ('the data was created' , response);
+
+                },
+                error: function ( error ) {
+                  console.log ( 'there was an error ' );
+                },
+                complete: function (xhr , status) {
+                  console.log ('The request is complete');
+                }
+              }); //closes closest ajax
+            }); //closes on
+} // closes success
+,
+error: function ( error ) {
+  console.log ( 'there was an error ' );
+},
+complete: function (xhr , status) {
+  console.log ('The request is complete');
+}
+
+}); //closes ajax #2
+       $p.on( 'dblclick', function ( ) {
+         var $form   = $ ( '<form>' ).attr('action', '/cohorts/' + e._id + '?_method=PUT' ).attr('method' , 'POST') ;
+         var $input  = $ ( '<input>' ).attr( 'value' , e.name ).attr( 'name' , 'name' );
+         $form.append( $input );
+         $p.replaceWith( $form );
          $p.appendTo( $body );
          $body.append( $x );
-       });
-
-        $( '.content' ).append( $ul );
-    },
+       });//closes on dbl click
+});//closes forEach
+  //
+  $( '.content' ).append( $ul );
+}, //end first success
     error: function ( error ) {
       console.log ( 'there was an error ' );
     },
     complete: function (xhr , status) {
       console.log ('The request is complete');
     }
-  });
-}; //list cohorts
+  }); // end first ajax
+}; // end list cohorts
 
-var newForm = function (){
+
+//works
+var newCohortForm = function (){
   $.ajax({
-    url:'../html/new_form.html',
+    url:'../html/new_cohort_form.html',
 
     type: 'GET',
 
@@ -92,9 +136,6 @@ var newForm = function (){
           }
         });
       });
-
-
-
     },
     error: function ( error ) {
       console.log ( 'the form was not loaded', error);
@@ -106,6 +147,25 @@ var newForm = function (){
   });
 
 }
+
+//in progress
+var newMemberForm = function(cohortId){
+
+
+
+
+
+  //   error: function ( error ) {
+  //     console.log ( 'the form was not loaded', error);
+  //   },
+  //
+  //   complete: function (xhr , status) {
+  //     console.log ( 'The request is complete' );
+  //   }
+  // });
+
+}
+
 
 var testAjax = function (){
   $.ajax({
@@ -123,14 +183,16 @@ var testAjax = function (){
 
 $(function(){
 
-var $button       = $( '.ajax');
-var $newForm      = $( '.new-form');
-var $listCohorts  = $( '.list-cohorts' );
+var $button             = $( '.ajax' );
+var $listCohorts        = $( '.list-cohorts' );
+var $newCohortForm      = $( '.new-cohort-form' );
+var $newMemberForm      = $( '.new-member-form' );
+
 
 $button.on('click', testAjax);
 
-$newForm.on('click', newForm);
+$newCohortForm.on('click', newCohortForm);
 
-$listCohorts.on('click', list);
+$listCohorts.on( 'click', list );
 
 }); //closes window onload

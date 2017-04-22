@@ -4,7 +4,7 @@
 
 const mongoose          = require ( 'mongoose' );
 const Schema            = mongoose.Schema;
-const Student           = require ( './students');
+const Member            = require ( './members');
 
 //------------------------
 // Set Up Schema
@@ -14,7 +14,7 @@ const cohortSchema       = new Schema ({
     type      : String,
     required  : [true, 'It needs a name']
   },
-  students    : [ Student.schema ]
+  members    : [ Member.schema ]
 
 });
 

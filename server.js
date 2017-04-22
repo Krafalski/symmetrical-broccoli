@@ -33,6 +33,7 @@ db.once ( 'open' , function () {
 // Controllers
 //------------------------
 var cohortsController    = require ( './controllers/cohorts' );
+var membersController    = require ( './controllers/members' );
 
 //------------------------
 // Middleware
@@ -46,7 +47,9 @@ app.use( methodOverride ('_method') );
 // populates req.body with parsed info from forms
 app.use ( bodyParser.urlencoded({ extended : false } ) ); //extened -false does not allow nested objects in forms
 
+//use controllers at specifed routes
 app.use ( '/cohorts' , cohortsController);
+app.use ( '/members' , membersController);
 
 
 //------------------------
