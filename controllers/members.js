@@ -15,7 +15,7 @@ const Member       = require ( '../models/members' );
 members.get ('/' , ( req , res ) => {
   Student.find ({} , ( error , foundMembers ) => {
     if ( error ){ console.log ( error )}
-    res.send( foundMembers);
+    res.send( foundMembers );
   })
 });
 
@@ -24,7 +24,7 @@ members.post( '/' , ( req, res ) => {
     Member.create(req.body, ( error , createdMember )=> {
       foundCohort.members.push(createdMember);
       foundCohort.save( (error , data )=>{
-        res.send('blue skies')
+        res.redirect('/');
       });
     });
   });

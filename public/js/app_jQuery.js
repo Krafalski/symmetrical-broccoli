@@ -1,3 +1,5 @@
+var grabCohortID = '';
+
 var makeList = function (){}
 
 var editCohortName = function (liName, liID){
@@ -32,56 +34,11 @@ var list = function (){
          //add attribute so cohort name can be edited
          $p.attr('id', e._id);
          $p.text( e.name )
+         $p.append($x);
          //edit cohort name:
-         var id = e._id
-         $p.on( 'click', newMemberForm(id) );
-         console.log('do your new member thing');
-         $.ajax({ //ajax # 2
-          url:'../html/new_member_form.html',
-
-          type: 'GET',
-  //
-          success: function ( response ) {
-            console.log( 'the form was loaded', response);
-            $( '.content' ).html(response);
-            var $content =   $( '.content' ).html(response);
-            var $form  = $('form');
-            var $input = $('<input>').attr('type' , 'hidden' ).attr('value', e._id).attr('name', 'cohortId');
-            $form.prepend($input);
-            var $submit = $ ( '.submit' );
-            $submit.on('click', function (){
-              $.ajax({
-                url: '/members',
-
-                type: 'POST',
-
-                data: data,
-
-                dataType: 'json',
-
-                success: function ( response ){
-                  console.log ('the data was created' , response);
-
-                },
-                error: function ( error ) {
-                  console.log ( 'there was an error ' );
-                },
-                complete: function (xhr , status) {
-                  console.log ('The request is complete');
-                }
-              }); //closes closest ajax
-            }); //closes on
-} // closes success
-,
-error: function ( error ) {
-  console.log ( 'there was an error ' );
-},
-complete: function (xhr , status) {
-  console.log ('The request is complete');
-}
-
-}); //closes ajax #2
-       $p.on( 'dblclick', function ( ) {
+         var id = e._id;
+         $p.on( 'click', newMemberForm );
+         $p.on( 'dblclick', function ( ) {
          var $form   = $ ( '<form>' ).attr('action', '/cohorts/' + e._id + '?_method=PUT' ).attr('method' , 'POST') ;
          var $input  = $ ( '<input>' ).attr( 'value' , e.name ).attr( 'name' , 'name' );
          $form.append( $input );
@@ -89,15 +46,16 @@ complete: function (xhr , status) {
          $p.appendTo( $body );
          $body.append( $x );
        });//closes on dbl click
+       $ul.append($p);
 });//closes forEach
   //
   $( '.content' ).append( $ul );
 }, //end first success
     error: function ( error ) {
-      console.log ( 'there was an error ' );
+    console.log ( 'there was an error ' );
     },
     complete: function (xhr , status) {
-      console.log ('The request is complete');
+      // console.log ('The request is complete');
     }
   }); // end first ajax
 }; // end list cohorts
@@ -149,20 +107,58 @@ var newCohortForm = function (){
 }
 
 //in progress
-var newMemberForm = function(cohortId){
+var newMemberForm = function(){
+  var cohortId =($(this).attr('id'))
+  $.ajax({ //ajax # 2
+   url:'../html/new_member_form.html',
+
+   type: 'GET',
+ //
+   success: function ( response ) {
+     $( '.content' ).html(response);
+     var $content =   $( '.content' ).html(response);
+     var $form  = $('form');
+     var $input = $('<input>').attr('type' , 'hidden' ).attr('value', cohortId).attr('name', 'cohortId');
+     $form.prepend($input);
+     var $submit = $ ( '.submit' );
+     $submit.on('click', function (){
+
+       $.ajax({
+         url: '/members',
+
+         type: 'POST',
+
+         data: data,
+
+         dataType: 'json',
+
+         success: function ( response ){
+           console.log ('the data was created' , response);
+           $( '.content' ).html(response);
+
+         },
+         error: function ( error ) {
+           console.log ( 'there was an error ' );
+         },
+         complete: function (xhr , status) {
+           console.log ('The request is complete');
+         }
+       }); //closes closest ajax
+     }); //closes on
+ } // closes success
+ ,
+ error: function ( error ) {
+ console.log ( 'there was an error ' );
+ },
+ complete: function (xhr , status) {
+ // console.log ('The request is complete');
+ }
+
+ }); //closes ajax #2
 
 
 
 
-
-  //   error: function ( error ) {
-  //     console.log ( 'the form was not loaded', error);
-  //   },
-  //
-  //   complete: function (xhr , status) {
-  //     console.log ( 'The request is complete' );
-  //   }
-  // });
 
 }
 
