@@ -26,7 +26,7 @@ shuffle(students);
 
 window.onload = function() {
 
-  var button      = document.getElementsByTagName('button')[0];
+  // var button      = document.getElementsByTagName('button')[0];
   var container   = document.getElementById('container');
   var table       = document.createElement('table');
   var tbody       = document.createElement('tbody');
@@ -35,23 +35,23 @@ window.onload = function() {
   var tr          = document.createElement('tr');
   th.innerHTML    = 'Name';
 
-  button.addEventListener('click', function(){
-      for (let i = 0; i < students.length; i++){
-        let trBody    = document.createElement('tr');
-        let td        = document.createElement('td');
-        td.innerHTML  = students[i];
-        td.addEventListener ('click', function(){
-          td.classList.add('youDidItCongrats');
-        });
-        trBody.appendChild(td);
-        tbody.appendChild(trBody);
-      }
-
-      tr.appendChild(th);
-      thead.appendChild(tr);
-      table.appendChild(thead);
-      table.appendChild(tbody);
-      container.appendChild(table);
-    });
+  // button.addEventListener('click', function(){
+  //     for (let i = 0; i < students.length; i++){
+  //       let trBody    = document.createElement('tr');
+  //       let td        = document.createElement('td');
+  //       td.innerHTML  = students[i];
+  //       td.addEventListener ('click', function(){
+  //         td.classList.add('youDidItCongrats');
+  //       });
+  //       trBody.appendChild(td);
+  //       tbody.appendChild(trBody);
+  //     }
+  //
+  //     tr.appendChild(th);
+  //     thead.appendChild(tr);
+  //     table.appendChild(thead);
+  //     table.appendChild(tbody);
+  //     container.appendChild(table);
+  //   });
 
 }; //closes window onload

@@ -24,7 +24,7 @@ members.post( '/' , ( req, res ) => {
     Member.create(req.body, ( error , createdMember )=> {
       foundCohort.members.push(createdMember);
       foundCohort.save( (error , data )=>{
-        res.redirect('/');
+        res.redirect('back');
       });
     });
   });

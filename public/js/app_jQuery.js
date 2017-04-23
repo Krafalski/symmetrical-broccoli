@@ -41,18 +41,21 @@ var list = function (){
        $cohort.append($h2);
        $cohort.append($button);
        var $input   = $( '<input>' );
+       //need to move this functionality within individual cohort's dashboard
        var $x       = $( '<form>' ).attr('action', '/cohorts/' + e._id + '?_method=DELETE' ).attr('method' , 'POST').addClass('delete-btn')
        $input.attr('type' ,'submit').attr ('value' ,'X').css('background-color' , 'red' );
        $x.append( $input );
        //add attribute so cohort name can be edited
        $h2.attr('id', e._id);
        $h2.text( e.name );
-       $cohort.append($x);
+
+       //needs to be moved
+      //  $cohort.append($x);
+
        e.members.forEach((m)=>{
-           var $br    = $( '<br>').addClass(e.name.toLowerCase())
            var $p = $('<p>').addClass(e.name.toLowerCase());
            $p.text(m.firstName).toggle(false);
-           $cohort.append($br , $p);
+           $cohort.append( $p);
          });
        //edit cohort name:
        var id = e._id;
