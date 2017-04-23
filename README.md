@@ -1,5 +1,19 @@
 # symmetrical-broccoli
 
+ 
+
+## Trying out a few new things
+
+- Yarn instead of NPM
+- ES6 (when I remember!) - will keep going back and editing
+- MongoDB, Mongoose (first project using it)
+- Ajax (framework-free Single Page Application)
+- Webpack - starting to love webpack. Will use bundle front end js.
+ [Great tutorial to get started with webpack](https://scotch.io/tutorials/getting-started-with-webpack-module-bundling-magic)
+  - In building this app I have found that the ajax calls can become very long and hard to organize. Webpack will allow me to make separate js files and then do the work to bundle all the code into one file called `bundle.js` - From my research, this seems to be the prefferred way to deal with front-end js files: In reading about using commmonJS, module.exports/require is for back-end stuff. 
+  [about commonJS](http://know.cujojs.com/tutorials/modules/authoring-cjs-modules)
+
+
 ## Installation
 - required on your machine: mongoDB, webpack, node.js, yarn.js, npm, (helpful for installing these :`brew`)
 - clone repo
@@ -10,18 +24,6 @@
 - run `server.js` - use `node server.js` or `nodemon` if you have `nodemon` installed
  - researching to see if I can get webpack to also watch the server/other files - there is a default webpack server but it wasn't quite what I was looking for
  - eventually, I would like to add some seed data and a seed route, for now the functionality to create a new cohort and add new members works (though very poor ui - working on it :-D )
- 
-
-##Trying out a few new things
-
-- Yarn instead of NPM
-- ES6 (when I remember!) - will keep going back and editing
-- MongoDB, Mongoose (first project using it)
-- Ajax (framework-free Single Page Application)
-- Webpack - starting to love webpack. Will use bundle front end js.
- [Great tutorial to get started with webpack](https://scotch.io/tutorials/getting-started-with-webpack-module-bundling-magic)
-  - In building this app I have found that the ajax calls can become very long and hard to organize. Webpack will allow me to make separate js files and then do the work to bundle all the code into one file called `bundle.js` - From my research, this seems to be the prefferred way to deal with front-end js files: In reading about using commmonJS, module.exports/require is for back-end stuff. 
-  [about commonJS](http://know.cujojs.com/tutorials/modules/authoring-cjs-modules)
 
 
 ##
