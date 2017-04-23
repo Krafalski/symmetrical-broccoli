@@ -1,13 +1,18 @@
 var grabCohortID = '';
+var members = [];
 
-var makeList = function (){}
 
-var editCohortName = function (liName, liID){
-  //editCohortName( e.name, e._id)
-  var $form   = $ ( '<form>' ).attr('action', '/cohorts/' + liID + '?_method=PUT' ).attr('method' , 'POST') ;
-  var $input  = $ ( '<input>' ).attr( 'value' , liName ).attr( 'name' , 'name' );
+var editCohortName = function ( cohort ){
+  //editCohortName( e.name, e._id)oi,k
+  var $h2 = ($(this))
+  var $body = ('body');
+  var $form   = $ ( '<form>' ).attr('action', '/cohorts/' + cohort.data.id + '?_method=PUT' ).attr('method' , 'POST') ;
+  var $input  = $ ( '<input>' ).attr( 'value' , cohort.data.name ).attr( 'name' , 'name' );
   $form.append( $input );
-  $('.content').append( $form );
+  // $('.content').append( $form );
+  //  $form.append( $input );
+   $h2.replaceWith( $form );
+   $h2.appendTo( $body );
 }
 
 var list = function (){
@@ -63,13 +68,14 @@ var list = function (){
        var id = e._id;
        //need a new place to call this  newMemberForm
        $h2.on( 'click', cohortDashboard);
-       $h2.on( 'dblclick', function ( ) {
-         var $form   = $ ( '<form>' ).attr('action', '/cohorts/' + e._id + '?_method=PUT' ).attr('method' , 'POST') ;
-         var $input  = $ ( '<input>' ).attr( 'value' , e.name ).attr( 'name' , 'name' );
-         $form.append( $input );
-         $h2.replaceWith( $form );
-         $h2.appendTo( $body );
-       });//closes on dbl click
+       $h2.on( 'dblclick',{ id: e._id, name: e.name}, editCohortName)
+       ////
+        //  var $form   = $ ( '<form>' ).attr('action', '/cohorts/' + e._id + '?_method=PUT' ).attr('method' , 'POST') ;
+        //  var $input  = $ ( '<input>' ).attr( 'value' , e.name ).attr( 'name' , 'name' );
+        //  $form.append( $input );
+        //  $h2.replaceWith( $form );
+        //  $h2.appendTo( $body );
+      //  });//closes on dbl click
        $('.content').append($cohort);
      });//closes forEach
   // $( '.content' ).append( $cohort );
@@ -97,7 +103,6 @@ var cohortDashboard  = function () {
       success: function ( response ){
         $('.content').empty()
         var $newContent = $('div').addClass('content');
-        console.log( response )
         var $h2 = $( '<h2>' ).text( response.name );
         var $ul = $( '<ul>');
         var $twoCols  = $( '<div>' ).addClass( 'two-cols' );
@@ -106,13 +111,16 @@ var cohortDashboard  = function () {
 
 
         var $button = $( '<button>').text('whiteboard');
+        $button.on('click', {id: response._id},loadWhiteboard );
         $actions.append($button);
         response.members.forEach((m) =>{
           var $li = $('<li>').text (m.firstName);
           $ul.append($li);
-          console.log( m.firstName);
-        });
+          // console.log( m.firstName);
+          members.push(m.firstName);
 
+        });
+        // console.log(members)
         $rollCall.append($ul);
 
         $twoCols.append( $rollCall, $actions );
@@ -241,6 +249,59 @@ var newMemberForm = function(){
 
 }
 
+var loadWhiteboard = function (data) {
+  $.ajax({
+    url: '../html/whiteboard.html',
+    type: 'GET',
+    success: function ( response ){
+
+        $('body').html(response);
+        var $ul = $('ul');
+        $.ajax({
+          url: '/cohorts/'+data.data.id,
+
+          type: 'GET',
+
+          dataType: 'json',
+
+          success: function ( response ){
+            console.log(response);
+            var $ul = $('ul');
+            console.log($ul);
+            response.members.forEach(function (m){
+              var $p = $('<p>').addClass('unchosen');
+              $p.text(m.firstName);
+              $ul.append($p)
+            });
+            var $unchosen = $('.unchosen').draggable({
+              containment:  $('.row'),
+              cursor     : 'pointer',
+              snap       :$('.grouping')
+            });
+
+          },
+          error: function ( error ) {
+            console.log ( 'there was an error ' );
+          },
+          complete: function (xhr , status) {
+          // console.log ('The request is complete');
+          }
+        })
+
+
+
+
+
+
+    },
+    error: function ( error ) {
+      console.log ( 'there was an error ' );
+    },
+    complete: function (xhr , status) {
+    // console.log ('The request is complete');
+    }
+  })
+}
 
 var testAjax = function (){
   $.ajax({

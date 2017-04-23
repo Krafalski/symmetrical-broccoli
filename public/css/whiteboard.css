@@ -1,0 +1,25 @@
+body {
+  text-align: center;
+}
+
+table {
+  margin:auto;
+}
+
+.youDidItCongrats {
+  opacity: 0.3;
+}
+
+.columns {
+  border: 1px solid silver;
+  min-height: 400px;
+
+}
+
+#draggable {
+  border: 1px solid gold;
+}
+
+p {
+  margin: 0 auto;
+}
