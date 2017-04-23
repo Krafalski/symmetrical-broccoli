@@ -1,6 +1,18 @@
 # symmetrical-broccoli
 
-Trying out a few new things
+## Installation'
+- required on your machine: mongoDB, webpack, node.js
+- clone repo
+- at the root of the directory (where `yarn.lock` file is located), run `yarn install` [more info on yarn\(https://yarnpkg.com/en/docs/getting-started)
+- need webpack installed: to install globally: `npm install -g webpack` 
+- run `mongod`
+- run webpack `webpack` - to run once `webpack -w` to run and watch for changes in the files
+- run `server.js` - use `node server.js` or `nodemon` if you have `nodemon` installed
+ - researching to see if I can get webpack to also watch the server/other files - there is a default webpack server but it wasn't quite what I was looking for
+ - eventually, I would like to add some seed data and a seed route, for now the functionality to create a new cohort and add new members works (though very poor ui - working on it :-D )
+ 
+
+##Trying out a few new things
 
 - Yarn instead of NPM
 - ES6 (when I remember!) - will keep going back and editing
