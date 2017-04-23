@@ -6,7 +6,10 @@ Trying out a few new things
 - ES6 (when I remember!) - will keep going back and editing
 - MongoDB, Mongoose (first project using it)
 - Ajax (framework-free Single Page Application)
-- Webpack - probably will remove this, doesn't seem to be needed for this particular app
+- Webpack - starting to love webpack. Will use bundle front end js.
+ [Great tutorial to get started with webpack](https://scotch.io/tutorials/getting-started-with-webpack-module-bundling-magic)
+  - In building this app I have found that the ajax calls can become very long and hard to organize. Webpack will allow me to make separate js files and then do the work to bundle all the code into one file called `bundle.js` - From my research, this seems to be the prefferred way to deal with front-end js files: In reading about using commmonJS, module.exports/require is for back-end stuff. 
+  [about commonJS](http://know.cujojs.com/tutorials/modules/authoring-cjs-modules)
 
 
 ##
