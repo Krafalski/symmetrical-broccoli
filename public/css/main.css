@@ -9,3 +9,12 @@ table {
 .youDidItCongrats {
   opacity: 0.3;
 }
+
+h2 {
+  display: inline-block;
+}
+
+.delete-btn, .member-btn {
+  display: inline-block !important;
+  margin: 1em 1em;
+}

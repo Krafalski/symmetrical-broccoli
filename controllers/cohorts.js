@@ -61,7 +61,7 @@ cohorts.put ( '/:id' , ( req , res ) => {
 cohorts.delete ( '/:id' , ( req , res) => {
   Cohort.findByIdAndRemove ( req.params.id , ( err , product ) => {
     if ( err ) { console.log ( err ); }
-      res.send( 'blue skies' );
+      res.redirect( '/' );
   })
 });
 
