@@ -1,7 +1,7 @@
 # symmetrical-broccoli
 
-## Installation'
-- required on your machine: mongoDB, webpack, node.js
+## Installation
+- required on your machine: mongoDB, webpack, node.js, yarn.js, npm, (helpful for installing these :`brew`)
 - clone repo
 - at the root of the directory (where `yarn.lock` file is located), run `yarn install` [more info on yarn\(https://yarnpkg.com/en/docs/getting-started)
 - need webpack installed: to install globally: `npm install -g webpack` 
