@@ -20,6 +20,10 @@ table {
   border: 1px solid gold;
 }
 
+h2:hover {
+  opacity: .5;
+}
+
 p {
   margin: 0 auto;
 }

@@ -21,6 +21,7 @@ members.get ('/' , ( req , res ) => {
 
 members.post( '/' , ( req, res ) => {
   Cohort.findById ( req.body.cohortId ,(error , foundCohort ) => {
+    console.log('this is found cohort', foundCohort)
     Member.create(req.body, ( error , createdMember )=> {
       foundCohort.members.push(createdMember);
       foundCohort.save( (error , data )=>{

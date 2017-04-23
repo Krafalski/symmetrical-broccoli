@@ -30,15 +30,21 @@ var list = function (){
       $content.empty();
 
       response.forEach( function ( e ){
+       var makeValidClassName = e.name.split( ' ' ).join('-').toLowerCase();
+       console.log(makeValidClassName);
        var $cohort         = $( '<div>' );
-       $cohort.attr('cohort', e.name.toLowerCase());
+       $cohort.attr('cohort', makeValidClassName);
+       console.log($cohort.attr('cohort'))
        var $body    = $(document.body);
        var $h2      = $( '<h2>' );
-       var $button  = $( '<button>' ).text('See Members').attr('cohort-btn', e.name.toLowerCase()).addClass('member-btn');
+       var $button  = $( '<button>' ).text('See Members').attr('cohort-btn', makeValidClassName).addClass('member-btn');
        $button.on('click', function() {
          var getClass = $(this).parent().attr('cohort');
+         //needs tweeking
+         var toggleSpeed = 40 * e.members.length;
+         console.log(e.members.length)
          var $toggleMembersView = $('.'+ getClass)
-          $toggleMembersView.toggle();
+          $toggleMembersView.slideToggle({duration:500,easing:'swing'});
           if ($(this).text() === 'See Members'){
             $(this).text('Hide Members')
           } else {
@@ -60,15 +66,15 @@ var list = function (){
       //  $cohort.append($x);
 
        e.members.forEach((m)=>{
-           var $p = $('<p>').addClass(e.name.toLowerCase());
-           $p.text(m.firstName).toggle(false);
-           $cohort.append( $p);
+           var $p = $('<p>').addClass(makeValidClassName);
+           $p.text(m.firstName).toggle();
+           $cohort.append( $p );
          });
        //edit cohort name:
        var id = e._id;
        //need a new place to call this  newMemberForm
        $h2.on( 'click', cohortDashboard);
-       $h2.on( 'dblclick',{ id: e._id, name: e.name}, editCohortName)
+
        ////
         //  var $form   = $ ( '<form>' ).attr('action', '/cohorts/' + e._id + '?_method=PUT' ).attr('method' , 'POST') ;
         //  var $input  = $ ( '<input>' ).attr( 'value' , e.name ).attr( 'name' , 'name' );
@@ -104,6 +110,10 @@ var cohortDashboard  = function () {
         $('.content').empty()
         var $newContent = $('div').addClass('content');
         var $h2 = $( '<h2>' ).text( response.name );
+         $h2.on( 'dblclick',{ id: response._id, name: response.name}, editCohortName)
+        var $addNewMember = $( '<button>' ).text('add a new member').addClass('add-new-member').attr('id', cohortId);
+        $addNewMember.on('click', newMemberForm);
+        $newContent.append($addNewMember);
         var $ul = $( '<ul>');
         var $twoCols  = $( '<div>' ).addClass( 'two-cols' );
         var $rollCall = $( '<div>' ).addClass( 'rollcall' );
@@ -193,17 +203,17 @@ var newCohortForm = function (){
 //works
 var newMemberForm = function(){
   var cohortId =($(this).attr('id'));
-  var cohortName =($(this).parent().attr('cohort'));
-
+  console.log(cohortId);
   $.ajax({
    url:'../html/new_member_form.html',
 
    type: 'GET',
  //
    success: function ( response ) {
-     $( '.content' ).html( '<h3>' + cohortName[0].toUpperCase() +cohortName.slice(1)+ '</h3>'+ response);
+     console.log(response);
+     var $actions = $('.actions');
+     $actions.prepend(response);
      console.log('u are here');
-    //  var $content =   $( '.content' ).html(response);
      var $form  = $('form');
      var $input = $('<input>').attr('type' , 'hidden' ).attr('value', cohortId).attr('name', 'cohortId');
      $form.prepend($input);
@@ -254,8 +264,9 @@ var loadWhiteboard = function (data) {
     url: '../html/whiteboard.html',
     type: 'GET',
     success: function ( response ){
-
-        $('body').html(response);
+        var html = response;
+        $('.content').children().empty();
+        $('.content').append(html);
         var $ul = $('ul');
         $.ajax({
           url: '/cohorts/'+data.data.id,
@@ -273,6 +284,7 @@ var loadWhiteboard = function (data) {
               $p.text(m.firstName);
               $ul.append($p)
             });
+
             var $unchosen = $('.unchosen').draggable({
               containment:  $('.row'),
               cursor     : 'pointer',
