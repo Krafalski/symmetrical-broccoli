@@ -22,6 +22,8 @@ var list = function (){
     success: function ( response ){
 
       var $content = ($('.content'));
+      $content.empty();
+
       response.forEach( function ( e ){
        var $cohort         = $( '<div>' );
        $cohort.attr('cohort', e.name.toLowerCase());
@@ -59,7 +61,8 @@ var list = function (){
          });
        //edit cohort name:
        var id = e._id;
-       $h2.on( 'click', newMemberForm );
+       //need a new place to call this  newMemberForm
+       $h2.on( 'click', cohortDashboard);
        $h2.on( 'dblclick', function ( ) {
          var $form   = $ ( '<form>' ).attr('action', '/cohorts/' + e._id + '?_method=PUT' ).attr('method' , 'POST') ;
          var $input  = $ ( '<input>' ).attr( 'value' , e.name ).attr( 'name' , 'name' );
@@ -67,7 +70,7 @@ var list = function (){
          $h2.replaceWith( $form );
          $h2.appendTo( $body );
        });//closes on dbl click
-       $content.children().append($cohort);
+       $('.content').append($cohort);
      });//closes forEach
   // $( '.content' ).append( $cohort );
     }, //end first success
@@ -80,6 +83,59 @@ var list = function (){
   }); // end first ajax
 }; // end list cohorts
 
+
+var cohortDashboard  = function () {
+  var cohortId =($(this).attr('id'));
+  var cohortName =($(this).parent().attr('cohort'));
+  $.ajax({
+    url : '/cohorts/' + cohortId,
+
+      type: 'GET',
+
+      dataType: 'json',
+
+      success: function ( response ){
+        $('.content').empty()
+        var $newContent = $('div').addClass('content');
+        console.log( response )
+        var $h2 = $( '<h2>' ).text( response.name );
+        var $ul = $( '<ul>');
+        var $twoCols  = $( '<div>' ).addClass( 'two-cols' );
+        var $rollCall = $( '<div>' ).addClass( 'rollcall' );
+        var $actions  = $( '<div>' ).addClass ('actions' );
+
+
+        var $button = $( '<button>').text('whiteboard');
+        $actions.append($button);
+        response.members.forEach((m) =>{
+          var $li = $('<li>').text (m.firstName);
+          $ul.append($li);
+          console.log( m.firstName);
+        });
+
+        $rollCall.append($ul);
+
+        $twoCols.append( $rollCall, $actions );
+        $newContent.append($twoCols);
+        // $('#container').last().remove();
+
+
+
+
+        $newContent.prepend($h2)
+
+
+
+      },
+      error: function ( error ) {
+        console.log ( 'there was an error ' );
+      },
+      complete: function (xhr , status) {
+          // console.log ('The request is complete');
+      }
+
+  })
+}
 
 //works
 var newCohortForm = function (){
@@ -104,7 +160,7 @@ var newCohortForm = function (){
 
           success: function ( response ){
             // console.log ('the data was created' , response);
-              $( '.content' ).html(response);
+              $( '.content' ).replaceWith(response);
           },
           error: function ( error ) {
             console.log ( 'there was an error ' );
@@ -130,8 +186,8 @@ var newCohortForm = function (){
 var newMemberForm = function(){
   var cohortId =($(this).attr('id'));
   var cohortName =($(this).parent().attr('cohort'));
-  console.log(cohortName);
-  $.ajax({ //ajax # 2
+
+  $.ajax({
    url:'../html/new_member_form.html',
 
    type: 'GET',
@@ -177,7 +233,7 @@ var newMemberForm = function(){
  // console.log ('The request is complete');
  }
 
- }); //closes ajax #2
+ }); //closes ajax
 
 
 

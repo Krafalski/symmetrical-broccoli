@@ -57,7 +57,7 @@ cohorts.get( '/' , ( req , res ) => {
 
 
     res.send (foundCohorts);
-  })
+  });
 });
 
 
@@ -66,6 +66,27 @@ cohorts.get( '/' , ( req , res ) => {
 
 
 // Show   : GET    '/products/:id'      2/7
+
+cohorts.get ('/:id', ( req , res ) => {
+  Cohort.findById(req.params.id , ( error , foundCohort) =>{
+    if  ( error ) { console.log ( error )}
+
+    foundCohort.members.sort(function(a, b) {
+      var nameA = a.firstName.toUpperCase(); // ignore upper and lowercase
+      var nameB = b.firstName.toUpperCase(); // ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+
+  // names must be equal
+  return 0;
+});
+    res.send( foundCohort );
+  });
+});
 
 // Create : POST   '/products'          4/7
 cohorts.post ( '/' , ( req , res) => {

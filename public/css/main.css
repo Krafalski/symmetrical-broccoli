@@ -18,3 +18,12 @@ h2 {
   display: inline-block !important;
   margin: 1em 1em;
 }
+
+.two-cols {
+  display: flex;
+  widht: 70%;
+}
+
+.rollcall, .actions {
+  width: 48%;
+}
