@@ -108,15 +108,69 @@ cohorts.put ( '/:id' , ( req , res ) => {
     if ( err ) {console.log( err );}
        res.redirect ('/');
   });
-});
+})
+
+
+
+  cohorts.delete('/:id', function(req, res){
+  	Cohort.findByIdAndRemove(req.params.id, function(err, foundCohort){
+  		var memberIds = [];
+  		for (var i = 0; i < foundCohort.members.length; i++) {
+  			memberIds.push(foundCohort.members[i]._id);
+  		}
+  		Member.remove(
+  			{
+  				_id : {
+  					$in: memberIds
+  				}
+  			},
+  			function(err, data){
+  				console.log(data, err);
+            res.redirect('/')
+  			}
+  		);
+  	});
+  });
+
+
 
 // Delete : DELETE '/products/:id'      7/7
-cohorts.delete ( '/:id' , ( req , res) => {
-  Cohort.findByIdAndRemove ( req.params.id , ( err , product ) => {
-    if ( err ) { console.log ( err ); }
-      res.redirect( '/' );
-  })
-});
+// cohorts.delete ( '/:id' , ( req , res) => {
+//   Cohort.findById( req.params.id , function (err , foundCohort ) {
+//
+//     if (err){ console.log ( err )}
+//
+//     var grabIds = foundCohort.members.map(function(m){
+//       return m._id.toString();
+//    });
+//    console.log(grabIds);
+//
+//    Member.find(
+//      {
+//         _id: {
+//           $in: grabIds
+//         }
+//       },
+//       function  ( error, removed ) {
+//      if ( error ) {console.log( error )}
+//      console.log ('removed', removed)
+//    })
+//
+//     // foundCohort.members.forEach((m)=>{
+//     //   var mIdString =  m._id.toString();
+//     //   console.log(m.firstName,  m._id, typeof m._id, typeof m._id.toString());
+//     //   Member.findByIdAndUpdate(mIdString  , {'firstName' : "Todd"},(error , removedMember)=>{
+//     //     if (error ){console.log(error)}
+//     //     console.log( 'goodbye!', removedMember)
+//     //   });
+//     // })
+//   })
+//   //get first part working then do this
+//   // Cohort.findByIdAndRemove ( req.params.id , ( err , cohort ) => {
+//   //   if ( err ) { console.log ( err ); }
+//       res.redirect( '/' );
+//   // })
+// });
 
 //http://stackoverflow.com/questions/15691224/mongoose-update-values-in-array-of-objects
 //Update Member, nested Route
