@@ -118,6 +118,38 @@ cohorts.delete ( '/:id' , ( req , res) => {
   })
 });
 
+//http://stackoverflow.com/questions/15691224/mongoose-update-values-in-array-of-objects
+//Update Member, nested Route
+//only updates the member? what about both?!
+cohorts.put('/:id/members/:m_id', (req , res) => {
+  console.log('this is req.body' , req.body)
+
+  Cohort.findOneAndUpdate({'members._id': req.params.m_id},{
+    $set:{
+      'members.$.firstName': req.body.firstName,
+      'members.$.lastName':req.body.lastName,
+      'members.$.nickName':req.body.nickName ,
+      'members.$.position': req.body.position,
+      'members.$.notes':req.body.notes
+
+
+     }}
+, ( err , foundMember)=>{
+    if (err){console.log ( err )}
+    else{console.log ('found member?', foundMember)}
+
+
+    //works
+    //update member NOT within cohort
+    Member.findByIdAndUpdate( req.params.m_id, req.body, {new: true} , ( err , foundMember) => {
+
+      res.send(foundMember)
+    });
+
+  })
+});
+
+//code graveyard
 
 
 

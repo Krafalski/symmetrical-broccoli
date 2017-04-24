@@ -19,6 +19,15 @@ members.get ('/' , ( req , res ) => {
   })
 });
 
+members.get('/:id', (req , res ) => {
+  Member.findById(req.params.id, (error, foundMember)=>{
+    if ( error ){ console.log ( error )}
+    res.send( foundMember);
+  })
+
+
+})
+
 members.post( '/' , ( req, res ) => {
   Cohort.findById ( req.body.cohortId ,(error , foundCohort ) => {
     console.log('this is found cohort', foundCohort)

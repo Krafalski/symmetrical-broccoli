@@ -112,10 +112,10 @@ var list = function list() {
 
       response.forEach(function (e) {
         var makeValidClassName = e.name.split(' ').join('-').toLowerCase();
-        console.log(makeValidClassName);
+
         var $cohort = $('<div>');
         $cohort.attr('cohort', makeValidClassName);
-        console.log($cohort.attr('cohort'));
+
         var $body = $(document.body);
         var $h2 = $('<h2>');
         var $button = $('<button>').text('See Members').attr('cohort-btn', makeValidClassName).addClass('member-btn');
@@ -191,7 +191,10 @@ window.list = list;
 //for helping me get webpack set up
 
 //global variables - need to find better place to put them
-var grabCohortID = '';
+
+// I don't need this any more????
+// var grabCohortID = '';
+
 
 // quick test - need to uncomment button in index.html
 __webpack_require__(9);
@@ -204,6 +207,7 @@ __webpack_require__(1);
 
 //get functionality of members CRUD- create read (index, show) update destroy
 __webpack_require__(5);
+__webpack_require__(10);
 
 //get functionality of whiteboard feature
 __webpack_require__(6);
@@ -424,12 +428,21 @@ var cohortDashboard = function cohortDashboard() {
     dataType: 'json',
 
     success: function success(response) {
+      //clear content to fill up again
       $('.content').empty();
+
+      //make new content
       var $newContent = $('div').addClass('content');
+
+      //cohort name
       var $h2 = $('<h2>').text(response.name);
       $h2.on('dblclick', { id: response._id, name: response.name }, editCohortName);
+
+      // add a new member
       var $addNewMember = $('<button>').text('add a new member').addClass('add-new-member').attr('id', cohortId);
       $addNewMember.on('click', newMemberForm);
+
+      //
       $newContent.append($addNewMember);
       var $ul = $('<ul>');
       var $twoCols = $('<div>').addClass('two-cols');
@@ -439,11 +452,13 @@ var cohortDashboard = function cohortDashboard() {
       var $button = $('<button>').text('whiteboard');
       $button.on('click', { id: response._id }, loadWhiteboard);
       $actions.append($button);
+
+      //show members
       response.members.forEach(function (m) {
         var $li = $('<li>').text(m.firstName);
+        $li.attr('member-id', m._id);
+        $li.on('click', { id: response._id }, editMember);
         $ul.append($li);
-        // console.log( m.firstName);
-        // members.push(m.firstName);
       });
       // console.log(members)
       $rollCall.append($ul);
@@ -490,6 +505,62 @@ var testAjax = function testAjax() {
 
 //http://stackoverflow.com/questions/38202092/why-javascript-function-coming-undefiend-after-compiling-from-webpack
 window.testAjax = testAjax;
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var editMember = function editMember(cohortInfo) {
+
+  var that = $(this);
+  var memberId = $(this).attr('member-id');
+  $.ajax({
+    url: '../../html/new_member_form.html',
+    type: 'GET',
+
+    success: function success(response) {
+      // console.log($(this));
+      console.log('cohort info', cohortInfo.data.id);
+      $(response).insertAfter(that);
+      $('form').attr('action', '/cohorts/' + cohortInfo.data.id + '/members/' + memberId + '?_method=PUT').attr('method', 'POST');
+
+      //in order to update must get member info
+      $.ajax({
+        url: '/members/' + memberId,
+        type: 'GET',
+        dataType: 'json',
+
+        success: function success(member) {
+          console.log('this is student get', member);
+          $('#first-name').attr('value', member.firstName);
+          $('#last-name').attr('value', member.lastName);
+          $('#nick-name').attr('value', member.nickName);
+          $('#position').attr('value', member.position);
+          $('#notes').attr('value', member.notes);
+        },
+        error: function error(_error) {
+          console.log('there was an error ');
+        },
+        complete: function complete(xhr, status) {
+          // console.log ('The request is complete');
+        }
+      });
+
+      $('#first-name').attr('value');
+    },
+    error: function error(_error2) {
+      console.log('there was an error ');
+    },
+    complete: function complete(xhr, status) {
+      // console.log ('The request is complete');
+    }
+  });
+};
+
+window.editMember = editMember;
 
 /***/ })
 /******/ ]);

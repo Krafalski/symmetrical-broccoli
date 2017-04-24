@@ -9,12 +9,21 @@ var cohortDashboard  = function () {
       dataType: 'json',
 
       success: function ( response ){
+        //clear content to fill up again
         $('.content').empty()
+
+        //make new content
         var $newContent = $('div').addClass('content');
+
+        //cohort name
         var $h2 = $( '<h2>' ).text( response.name );
          $h2.on( 'dblclick',{ id: response._id, name: response.name}, editCohortName)
+
+        // add a new member
         var $addNewMember = $( '<button>' ).text('add a new member').addClass('add-new-member').attr('id', cohortId);
         $addNewMember.on('click', newMemberForm);
+
+        //
         $newContent.append($addNewMember);
         var $ul = $( '<ul>');
         var $twoCols  = $( '<div>' ).addClass( 'two-cols' );
@@ -25,11 +34,14 @@ var cohortDashboard  = function () {
         var $button = $( '<button>').text('whiteboard');
         $button.on('click', {id: response._id},loadWhiteboard );
         $actions.append($button);
+
+        //show members
         response.members.forEach((m) =>{
           var $li = $('<li>').text (m.firstName);
+          $li.attr('member-id', m._id);
+          $li.on('click',{id: response._id}, editMember);
           $ul.append($li);
-          // console.log( m.firstName);
-          // members.push(m.firstName);
+
 
         });
         // console.log(members)

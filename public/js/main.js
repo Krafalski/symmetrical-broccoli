@@ -2,7 +2,9 @@
 //for helping me get webpack set up
 
 //global variables - need to find better place to put them
-var grabCohortID = '';
+
+// I don't need this any more????
+// var grabCohortID = '';
 
 
 // quick test - need to uncomment button in index.html
@@ -16,6 +18,7 @@ require ('./cohorts/edit');
 
 //get functionality of members CRUD- create read (index, show) update destroy
 require ('./members/new');
+require ('./members/edit');
 
 //get functionality of whiteboard feature
 require ('./whiteboard/whiteboard');

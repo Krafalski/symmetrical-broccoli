@@ -14,10 +14,10 @@ var list = function (){
 
       response.forEach( function ( e ){
        var makeValidClassName = e.name.split( ' ' ).join('-').toLowerCase();
-       console.log(makeValidClassName);
+
        var $cohort         = $( '<div>' );
        $cohort.attr('cohort', makeValidClassName);
-       console.log($cohort.attr('cohort'))
+      
        var $body    = $(document.body);
        var $h2      = $( '<h2>' );
        var $button  = $( '<button>' ).text('See Members').attr('cohort-btn', makeValidClassName).addClass('member-btn');
