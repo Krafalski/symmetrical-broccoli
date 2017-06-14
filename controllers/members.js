@@ -22,8 +22,8 @@ members.get ('/' , ( req , res ) => {
 members.get('/:id', (req , res ) => {
   Member.findById(req.params.id, (error, foundMember)=>{
     if ( error ){ console.log ( error )}
-    res.send( foundMember);
-  })
+    res.send( foundMember );
+  });
 
 
 })
@@ -34,7 +34,8 @@ members.post( '/' , ( req, res ) => {
     Member.create(req.body, ( error , createdMember )=> {
       foundCohort.members.push(createdMember);
       foundCohort.save( (error , data )=>{
-        res.redirect('back');
+        if ( error ) { console.log (error)}
+        res.send( createdMember );
       });
     });
   });

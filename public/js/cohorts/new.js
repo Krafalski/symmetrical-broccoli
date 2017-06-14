@@ -1,3 +1,5 @@
+
+
 //works
 var newCohortForm = function (){
   $.ajax({
@@ -9,26 +11,31 @@ var newCohortForm = function (){
       // console.log( 'the form was loaded', response);
       $( '.content' ).html(response);
       var $submit = $ ( '.submit' );
-      $submit.on('click', function (){
-        console.log('I clicked the button')
+
+      $submit.on('click', function ( event ){
+        event.preventDefault();
+
+        console.log($('input').val());
         $.ajax({
           url: '/cohorts',
 
           type: 'POST',
 
-          data: data,
+          data: { name :$('input').val()},
 
           dataType: 'json',
 
           success: function ( response ){
-            // console.log ('the data was created' , response);
-              $( '.content' ).replaceWith(response);
+
+            console.log ('the data was created' , response);
+
+              window.list();
           },
           error: function ( error ) {
             console.log ( 'there was an error ' );
           },
           complete: function (xhr , status) {
-            // console.log ('The request is complete');
+            console.log ('The request is complete');
           }
         });
       });

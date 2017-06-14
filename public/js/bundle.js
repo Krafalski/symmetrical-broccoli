@@ -63,11 +63,34 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ([
-/* 0 */,
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var testAjax = function testAjax() {
+  $.ajax({
+    url: '/cohorts',
+
+    success: function success() {
+      $('<h1>').text('u did it!').appendTo('body');
+    },
+    error: function error() {
+      alert('Sorry, there was a problem');
+    }
+
+  });
+};
+
+//http://stackoverflow.com/questions/38202092/why-javascript-function-coming-undefiend-after-compiling-from-webpack
+window.testAjax = testAjax;
+
+/***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -185,52 +208,135 @@ var list = function list() {
 window.list = list;
 
 /***/ }),
-/* 3 */,
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+//works
+var newCohortForm = function newCohortForm() {
+  $.ajax({
+    url: '../html/new_cohort_form.html',
+
+    type: 'GET',
+
+    success: function success(response) {
+      // console.log( 'the form was loaded', response);
+      $('.content').html(response);
+      var $submit = $('.submit');
+
+      $submit.on('click', function (event) {
+        event.preventDefault();
+
+        console.log($('input').val());
+        $.ajax({
+          url: '/cohorts',
+
+          type: 'POST',
+
+          data: { name: $('input').val() },
+
+          dataType: 'json',
+
+          success: function success(response) {
+
+            console.log('the data was created', response);
+
+            window.list();
+          },
+          error: function error(_error) {
+            console.log('there was an error ');
+          },
+          complete: function complete(xhr, status) {
+            console.log('The request is complete');
+          }
+        });
+      });
+    },
+    error: function error(_error2) {
+      console.log('the form was not loaded', _error2);
+    },
+
+    complete: function complete(xhr, status) {
+      console.log('The request is complete');
+    }
+  });
+};
+
+window.newCohortForm = newCohortForm;
+
+/***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-//big shout out to https://scotch.io/tutorials/getting-started-with-webpack-module-bundling-magic
-//for helping me get webpack set up
+var cohortDashboard = function cohortDashboard(cohortID) {
+  var cohortId = $(this).attr('id') || cohortID;
+  var cohortName = $(this).parent().attr('cohort');
+  $.ajax({
+    url: '/cohorts/' + cohortId,
 
-//global variables - need to find better place to put them
+    type: 'GET',
 
-// I don't need this any more????
-// var grabCohortID = '';
+    dataType: 'json',
+
+    success: function success(response) {
+      //clear content to fill up again
+      $('.content').empty();
+
+      //make new content
+      var $newContent = $('div').addClass('content');
+
+      //cohort name
+      var $h2 = $('<h2>').text(response.name);
+      $h2.on('dblclick', { id: response._id, name: response.name }, editCohortName);
+
+      // add a new member
+      var $addNewMember = $('<button>').text('add a new member').addClass('add-new-member').attr('id', cohortId);
+      $addNewMember.on('click', newMemberForm);
+
+      //
+      $newContent.append($addNewMember);
+      var $ul = $('<ul>');
+      var $twoCols = $('<div>').addClass('two-cols');
+      var $rollCall = $('<div>').addClass('rollcall');
+      var $actions = $('<div>').addClass('actions');
+
+      var $button = $('<button>').text('whiteboard');
+      $button.on('click', { id: response._id }, loadWhiteboard);
+      $actions.append($button);
+
+      //show members
+      response.members.forEach(function (m) {
+        var $li = $('<li>').text(m.firstName);
+        $li.attr('member-id', m._id);
+        $li.on('click', { id: response._id }, editMember);
+        $ul.append($li);
+      });
+      // console.log(members)
+      $rollCall.append($ul);
+
+      $twoCols.append($rollCall, $actions);
+      $newContent.append($twoCols);
+      // $('#container').last().remove();
 
 
-// quick test - need to uncomment button in index.html
-__webpack_require__(9);
+      $newContent.prepend($h2);
+    },
+    error: function error(_error) {
+      console.log('there was an error ');
+    },
+    complete: function complete(xhr, status) {
+      // console.log ('The request is complete');
+    }
 
-//get functionality of cohorts CRUD- create read (index, show) update destroy
-__webpack_require__(2);
-__webpack_require__(7);
-__webpack_require__(8);
-__webpack_require__(1);
+  });
+};
 
-//get functionality of members CRUD- create read (index, show) update destroy
-__webpack_require__(5);
-__webpack_require__(10);
-
-//get functionality of whiteboard feature
-__webpack_require__(6);
-
-$(function () {
-
-  var $button = $('.ajax');
-  var $listCohorts = $('.list-cohorts');
-  var $newCohortForm = $('.new-cohort-form');
-  var $newMemberForm = $('.new-member-form');
-
-  // console.log('this is when testAjax is called');
-  // $button.on('click', testAjax);
-  //
-  $newCohortForm.on('click', newCohortForm);
-
-  $listCohorts.on('click', list);
-}); //closes window onload
+window.cohortDashboard = cohortDashboard;
 
 /***/ }),
 /* 5 */
@@ -238,6 +344,70 @@ $(function () {
 
 "use strict";
 
+
+var editMember = function editMember(cohortInfo) {
+
+  var that = $(this);
+  var memberId = $(this).attr('member-id');
+  $.ajax({
+    url: '../../html/new_member_form.html',
+    type: 'GET',
+
+    success: function success(response) {
+      // console.log($(this));
+      console.log('cohort info', cohortInfo.data.id);
+      $(response).insertAfter(that);
+      $('form').attr('action', '/cohorts/' + cohortInfo.data.id + '/members/' + memberId + '?_method=PUT').attr('method', 'POST');
+
+      //in order to update must get member info
+      $.ajax({
+        url: '/members/' + memberId,
+        type: 'GET',
+        dataType: 'json',
+
+        success: function success(member) {
+          console.log('this is student get', member);
+          $('#first-name').attr('value', member.firstName);
+          $('#last-name').attr('value', member.lastName);
+          $('#nick-name').attr('value', member.nickName);
+          $('#position').attr('value', member.position);
+          $('#notes').attr('value', member.notes);
+          var $form = $('form');
+          console.log($form);
+          var $delete = $('<form>').attr('action', '/cohorts/' + cohortInfo.data.id + '/members/' + member._id + '?_method=DELETE').attr('method', 'POST');
+          var $deleteBtn = $('<input>').attr('type', 'submit').addClass('btn').attr('value', 'delete forever');
+          $delete.append($deleteBtn);
+          $form.append($delete);
+        },
+        error: function error(_error) {
+          console.log('there was an error  in getting json', _error);
+        },
+        complete: function complete(xhr, status) {
+          // console.log ('The request is complete');
+        }
+      });
+
+      $('#first-name').attr('value');
+    },
+    error: function error(_error2) {
+      console.log('there was an error ing getting the form', _error2);
+    },
+    complete: function complete(xhr, status) {
+      // console.log ('The request is complete');
+    }
+  });
+};
+
+window.editMember = editMember;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var newMember = { cohortId: $('.add-new-member').attr('id') };
 
 //works
 var newMemberForm = function newMemberForm() {
@@ -252,28 +422,38 @@ var newMemberForm = function newMemberForm() {
       //  console.log(response);
       var $actions = $('.actions');
       $actions.prepend(response);
-      console.log('u are here');
       var $form = $('form');
       var $input = $('<input>').attr('type', 'hidden').attr('value', cohortId).attr('name', 'cohortId');
       $form.prepend($input);
       var $submit = $('.submit');
-      $submit.on('click', function () {
+      $submit.on('click', function (e) {
+        e.preventDefault();
+        console.log('default prevented');
+
+        var newMember = {
+          cohortId: $('.add-new-member').attr('id'),
+          firstName: $('#first-name').val(),
+          lastName: $('#last-name').val(),
+          nickName: $('#nick-name').val(),
+          position: $('#position').val(),
+          notes: $('#notes').val()
+        };
 
         $.ajax({
           url: '/members',
 
           type: 'POST',
 
-          data: data,
+          data: newMember,
 
           dataType: 'json',
 
           success: function success(response) {
             console.log('the data was created', response);
-            $('.content').html(response);
+            window.cohortDashboard(newMember.cohortId);
           },
           error: function error(_error) {
-            console.log('there was an error ');
+            console.log('there was an error ', _error);
           },
           complete: function complete(xhr, status) {
             console.log('The request is complete');
@@ -295,7 +475,7 @@ var newMemberForm = function newMemberForm() {
 window.newMemberForm = newMemberForm;
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -362,210 +542,51 @@ var loadWhiteboard = function loadWhiteboard(data) {
 window.loadWhiteboard = loadWhiteboard;
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-//works
-var newCohortForm = function newCohortForm() {
-  $.ajax({
-    url: '../html/new_cohort_form.html',
-
-    type: 'GET',
-
-    success: function success(response) {
-      // console.log( 'the form was loaded', response);
-      $('.content').html(response);
-      var $submit = $('.submit');
-      $submit.on('click', function () {
-        console.log('I clicked the button');
-        $.ajax({
-          url: '/cohorts',
-
-          type: 'POST',
-
-          data: data,
-
-          dataType: 'json',
-
-          success: function success(response) {
-            // console.log ('the data was created' , response);
-            $('.content').replaceWith(response);
-          },
-          error: function error(_error) {
-            console.log('there was an error ');
-          },
-          complete: function complete(xhr, status) {
-            // console.log ('The request is complete');
-          }
-        });
-      });
-    },
-    error: function error(_error2) {
-      console.log('the form was not loaded', _error2);
-    },
-
-    complete: function complete(xhr, status) {
-      console.log('The request is complete');
-    }
-  });
-};
-
-window.newCohortForm = newCohortForm;
-
-/***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var cohortDashboard = function cohortDashboard() {
-  var cohortId = $(this).attr('id');
-  var cohortName = $(this).parent().attr('cohort');
-  $.ajax({
-    url: '/cohorts/' + cohortId,
+//big shout out to https://scotch.io/tutorials/getting-started-with-webpack-module-bundling-magic
+//for helping me get webpack set up
 
-    type: 'GET',
+//global variables - need to find better place to put them
 
-    dataType: 'json',
-
-    success: function success(response) {
-      //clear content to fill up again
-      $('.content').empty();
-
-      //make new content
-      var $newContent = $('div').addClass('content');
-
-      //cohort name
-      var $h2 = $('<h2>').text(response.name);
-      $h2.on('dblclick', { id: response._id, name: response.name }, editCohortName);
-
-      // add a new member
-      var $addNewMember = $('<button>').text('add a new member').addClass('add-new-member').attr('id', cohortId);
-      $addNewMember.on('click', newMemberForm);
-
-      //
-      $newContent.append($addNewMember);
-      var $ul = $('<ul>');
-      var $twoCols = $('<div>').addClass('two-cols');
-      var $rollCall = $('<div>').addClass('rollcall');
-      var $actions = $('<div>').addClass('actions');
-
-      var $button = $('<button>').text('whiteboard');
-      $button.on('click', { id: response._id }, loadWhiteboard);
-      $actions.append($button);
-
-      //show members
-      response.members.forEach(function (m) {
-        var $li = $('<li>').text(m.firstName);
-        $li.attr('member-id', m._id);
-        $li.on('click', { id: response._id }, editMember);
-        $ul.append($li);
-      });
-      // console.log(members)
-      $rollCall.append($ul);
-
-      $twoCols.append($rollCall, $actions);
-      $newContent.append($twoCols);
-      // $('#container').last().remove();
+// I don't need this any more????
+// var grabCohortID = '';
 
 
-      $newContent.prepend($h2);
-    },
-    error: function error(_error) {
-      console.log('there was an error ');
-    },
-    complete: function complete(xhr, status) {
-      // console.log ('The request is complete');
-    }
+// quick test - need to uncomment button in index.html
+__webpack_require__(0);
 
-  });
-};
+//get functionality of cohorts CRUD- create read (index, show) update destroy
+__webpack_require__(2);
+__webpack_require__(3);
+__webpack_require__(4);
+__webpack_require__(1);
 
-window.cohortDashboard = cohortDashboard;
+//get functionality of members CRUD- create read (index, show) update destroy
+__webpack_require__(6);
+__webpack_require__(5);
 
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
+//get functionality of whiteboard feature
+__webpack_require__(7);
 
-"use strict";
+$(function () {
 
+  var $button = $('.ajax');
+  var $listCohorts = $('.list-cohorts');
+  var $newCohortForm = $('.new-cohort-form');
+  var $newMemberForm = $('.new-member-form');
 
-var testAjax = function testAjax() {
-  $.ajax({
-    url: '/cohorts',
+  // console.log('this is when testAjax is called');
+  // $button.on('click', testAjax);
+  //
+  $newCohortForm.on('click', newCohortForm);
 
-    success: function success() {
-      $('<h1>').text('u did it!').appendTo('body');
-    },
-    error: function error() {
-      alert('Sorry, there was a problem');
-    }
-
-  });
-};
-
-//http://stackoverflow.com/questions/38202092/why-javascript-function-coming-undefiend-after-compiling-from-webpack
-window.testAjax = testAjax;
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var editMember = function editMember(cohortInfo) {
-
-  var that = $(this);
-  var memberId = $(this).attr('member-id');
-  $.ajax({
-    url: '../../html/new_member_form.html',
-    type: 'GET',
-
-    success: function success(response) {
-      // console.log($(this));
-      console.log('cohort info', cohortInfo.data.id);
-      $(response).insertAfter(that);
-      $('form').attr('action', '/cohorts/' + cohortInfo.data.id + '/members/' + memberId + '?_method=PUT').attr('method', 'POST');
-
-      //in order to update must get member info
-      $.ajax({
-        url: '/members/' + memberId,
-        type: 'GET',
-        dataType: 'json',
-
-        success: function success(member) {
-          console.log('this is student get', member);
-          $('#first-name').attr('value', member.firstName);
-          $('#last-name').attr('value', member.lastName);
-          $('#nick-name').attr('value', member.nickName);
-          $('#position').attr('value', member.position);
-          $('#notes').attr('value', member.notes);
-        },
-        error: function error(_error) {
-          console.log('there was an error ');
-        },
-        complete: function complete(xhr, status) {
-          // console.log ('The request is complete');
-        }
-      });
-
-      $('#first-name').attr('value');
-    },
-    error: function error(_error2) {
-      console.log('there was an error ');
-    },
-    complete: function complete(xhr, status) {
-      // console.log ('The request is complete');
-    }
-  });
-};
-
-window.editMember = editMember;
+  $listCohorts.on('click', list);
+}); //closes window onload
 
 /***/ })
 /******/ ]);

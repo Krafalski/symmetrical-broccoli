@@ -93,7 +93,7 @@ cohorts.post ( '/' , ( req , res) => {
   Cohort.create ( req.body , ( err , cohort) => {
     console.log(req.body, 'this is req.body');
     if ( err ) { res.send ( err ); }
-    else { res.redirect ('/'); }
+    else { res.send (req.body); }
   });
 });
 
@@ -112,7 +112,7 @@ cohorts.put ( '/:id' , ( req , res ) => {
 
 
 
-  cohorts.delete('/:id', function(req, res){
+cohorts.delete('/:id', function(req, res){
   	Cohort.findByIdAndRemove(req.params.id, function(err, foundCohort){
   		var memberIds = [];
   		for (var i = 0; i < foundCohort.members.length; i++) {
@@ -190,20 +190,38 @@ cohorts.put('/:id/members/:m_id', (req , res) => {
      }}
 , ( err , foundMember)=>{
     if (err){console.log ( err )}
-    else{console.log ('found member?', foundMember)}
+    else{ console.log ('found member?', foundMember)}
 
 
     //works
     //update member NOT within cohort
     Member.findByIdAndUpdate( req.params.m_id, req.body, {new: true} , ( err , foundMember) => {
+      res.send(foundMember)
+    });
+
+  })
+});
+//route needs to be tested
+
+//BUSTED time take a break
+cohorts.delete('/:id/members/:m_id', (req , res) => {
+
+
+  Cohort.findByIdAndRemove(req.params.m_id,
+ ( err , foundMember)=>{
+    if (err){console.log ( err )}
+    else {console.log ('found member?', foundMember)}
+
+
+    //works
+    //update member NOT within cohort
+    Member.findByIdAndRemove( req.params.m_id, req.body, {new: true} , ( err , foundMember) => {
 
       res.send(foundMember)
     });
 
   })
 });
-
-//code graveyard
 
 
 

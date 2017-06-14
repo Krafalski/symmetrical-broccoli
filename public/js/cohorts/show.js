@@ -1,5 +1,5 @@
-var cohortDashboard  = function () {
-  var cohortId =($(this).attr('id'));
+var cohortDashboard  = function (cohortID) {
+  var cohortId =($(this).attr('id'))|| cohortID;
   var cohortName =($(this).parent().attr('cohort'));
   $.ajax({
     url : '/cohorts/' + cohortId,

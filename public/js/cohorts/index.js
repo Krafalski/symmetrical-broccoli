@@ -1,3 +1,5 @@
+
+
 var list = function (){
 
   $.ajax({
@@ -17,7 +19,7 @@ var list = function (){
 
        var $cohort         = $( '<div>' );
        $cohort.attr('cohort', makeValidClassName);
-      
+
        var $body    = $(document.body);
        var $h2      = $( '<h2>' );
        var $button  = $( '<button>' ).text('See Members').attr('cohort-btn', makeValidClassName).addClass('member-btn');

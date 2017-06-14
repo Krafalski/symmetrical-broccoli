@@ -1,3 +1,5 @@
+var newMember = {cohortId : $('.add-new-member').attr('id')}
+
 //works
 var newMemberForm = function(){
   var cohortId =($(this).attr('id'));
@@ -10,30 +12,43 @@ var newMemberForm = function(){
    success: function ( response ) {
     //  console.log(response);
      var $actions = $('.actions');
-     $actions.prepend(response);
-     console.log('u are here');
+     $actions.prepend( response );
      var $form  = $('form');
      var $input = $('<input>').attr('type' , 'hidden' ).attr('value', cohortId).attr('name', 'cohortId');
      $form.prepend($input);
      var $submit = $ ( '.submit' );
-     $submit.on('click', function (){
+     $submit.on('click', function (e){
+       e.preventDefault();
+       console.log( 'default prevented');
+
+       var newMember = {
+         cohortId : $('.add-new-member').attr('id'),
+         firstName :$('#first-name').val(),
+         lastName :$('#last-name').val(),
+         nickName : $('#nick-name').val(),
+         position : $('#position').val(),
+         notes : $('#notes').val()
+       };
+
+
+
 
        $.ajax({
          url: '/members',
 
          type: 'POST',
 
-         data: data,
+         data: newMember,
 
          dataType: 'json',
 
          success: function ( response ){
            console.log ('the data was created' , response);
-           $( '.content' ).html(response);
+           window.cohortDashboard(newMember.cohortId);
 
          },
          error: function ( error ) {
-           console.log ( 'there was an error ' );
+           console.log ( 'there was an error ', error );
          },
          complete: function (xhr , status) {
            console.log ('The request is complete');
