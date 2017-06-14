@@ -284,11 +284,14 @@ var cohortDashboard = function cohortDashboard(cohortID) {
     dataType: 'json',
 
     success: function success(response) {
+      var $container = $('#cotainer');
       //clear content to fill up again
-      $('.content').empty();
-
+      console.log($('.content'));
+      var $content = $('.content');
+      $content.empty();
+      console.log($('.content'));
       //make new content
-      var $newContent = $('div').addClass('content');
+
 
       //cohort name
       var $h2 = $('<h2>').text(response.name);
@@ -299,7 +302,7 @@ var cohortDashboard = function cohortDashboard(cohortID) {
       $addNewMember.on('click', newMemberForm);
 
       //
-      $newContent.append($addNewMember);
+      $content.append($addNewMember);
       var $ul = $('<ul>');
       var $twoCols = $('<div>').addClass('two-cols');
       var $rollCall = $('<div>').addClass('rollcall');
@@ -320,7 +323,7 @@ var cohortDashboard = function cohortDashboard(cohortID) {
       $rollCall.append($ul);
 
       $twoCols.append($rollCall, $actions);
-      $newContent.append($twoCols);
+      $content.append($twoCols);
       // $('#container').last().remove();
 
 
