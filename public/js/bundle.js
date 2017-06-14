@@ -757,7 +757,11 @@ var randomOrder = function randomOrder() {
   $ol.empty();
   shuffle($newOrder);
   $newOrder.forEach(function (s) {
-    var $li = $('<li>').text(s);
+    var $li = $('<li>').text(s).toggleClass('not-participating', false).toggleClass('participating');
+    $li.click(function (li) {
+      $(this).toggleClass('not-participating');
+      $(this).toggleClass('participating');
+    });
     $ol.append($li);
   });
 };

@@ -10,7 +10,11 @@ var randomOrder = function (){
   $ol.empty();
   shuffle($newOrder);
   $newOrder.forEach( s => {
-    var $li = $('<li>').text(s)
+    var $li = $('<li>').text(s).toggleClass('not-participating', false).toggleClass('participating');
+    $li.click(function(li){
+      $(this).toggleClass('not-participating');
+      $(this).toggleClass('participating')
+    });
     $ol.append( $li );
   });
 
