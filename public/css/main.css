@@ -1,3 +1,11 @@
+* {
+  border: 1px solid pink;
+}
+
+.container {
+  clear:both;
+}
+
 body {
   text-align: center;
 }
@@ -24,11 +32,25 @@ h2 {
   widht: 70%;
 }
 
-.rollcall, .actions {
-  width: 45%;
+ .actions {
+  width: 25%;
 
 }
-.options, .rollcall {
-    width: 45%;
+ .rollcall {
+    width: 20%;
     display: inline-block;
+}
+
+.col-fix {
+  display: flex;
+  justify-content: space-around;
+}
+
+.groups {
+  display: flex;
+  width: 60%;
+  justify-content: space-around;
+  flex-flow: row wrap;
+  flex-basis: 30%;
+  align-items: center;
 }

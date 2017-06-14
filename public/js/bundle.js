@@ -681,9 +681,10 @@ var loadRandomizer = function loadRandomizer(data) {
       console.log(' this is data data ', data.data);
       // window.history.pushState(data.data.id , null, 'randomizer/'+ data.data.name)
       var html = response;
+      var $colFixDiv = $('<div>').addClass('col-fix');
       $('.content').empty();
       $('.content').append(html);
-      var $ol = $('ol');
+      $('.content').append($colFixDiv);
 
       var $randomOrderBtn = $('#random-order');
       var $oneRandomBtn = $('#one-random');
@@ -691,8 +692,6 @@ var loadRandomizer = function loadRandomizer(data) {
       $randomOrderBtn.on('click', randomOrder);
       $oneRandomBtn.on('click', oneRandom);
       $randomGroupsBtn.on('click', randomGroupsOptions);
-      var $br = $('<br>');
-      $('.content').append($br);
 
       $.ajax({
         url: '/cohorts/' + data.data.id,
@@ -713,7 +712,7 @@ var loadRandomizer = function loadRandomizer(data) {
             $ol.append($li);
           });
           $rollCall.append($ol);
-          $('.content').append($rollCall);
+          $($colFixDiv).append($rollCall);
         },
         error: function error(_error) {
           console.log('there was an error ', _error);
@@ -775,24 +774,35 @@ var oneRandom = function oneRandom() {
 
 var randomGroupsOptions = function randomGroupsOptions() {
   $('h3').remove();
-  $('.group-div').remove();
-  var $content = $('.content');
-  var $optionsDiv = $('<div>').addClass('options').css('background-color', 'lightsalmon').css('min-height', '300px');
+  $('.groups').remove();
+  $('.options').remove();
+  var $colFix = $('.col-fix');
+  var $optionsDiv = $('<div>').addClass('options').css('background-color', 'lightsalmon');
   var $pairs = $('<button>').text('pairs');
   $optionsDiv.append($pairs);
   var $threes = $('<button>').text('threes');
   $optionsDiv.append($threes);
+  var $fours = $('<button>').text('fours');
+  $optionsDiv.append($fours);
   $pairs.on('click', { size: 2 }, groupSettings);
-
-  $content.append($optionsDiv);
+  $threes.on('click', { size: 3 }, groupSettings);
+  $fours.on('click', { size: 4 }, groupSettings);
+  var $content = $('.content');
+  $optionsDiv.appendTo($content);
+  $colFix.appendTo($content);
 };
 
 var groupSettings = function groupSettings(options) {
   var size = options.data.size;
+
   $('h3').remove();
-  $('.group-div').remove();
+  $('.groups').remove();
   var $students = $('li');
   var students = [];
+  console.log('size', size, 'sl - size', $students.length - size);
+  if (size > $students.length - size) {
+    size = size - 1;
+  }
   for (var i = 0; i < $students.length; i++) {
     students.push($students.eq(i).text());
   }
@@ -804,20 +814,22 @@ var groupSettings = function groupSettings(options) {
   console.log(groups);
   console.log('studetns after awesome groups', students);
 
+  var $groups = $('<div>').addClass('groups');
   groups.forEach(function (group) {
-    var $groupDiv = $('<div>').addClass('group-div').css('border', '1px solid gold').css('width', '50%');
+    var $groupDiv = $('<div>').addClass('group-div').css('border', '1px solid gold');
     var $ul = $('<ul>');
     group.forEach(function (person) {
       var $li = $('<li>').text(person);
       $ul.append($li);
     });
     $groupDiv.append($ul);
-    $('.content').append($groupDiv);
+    $groups.append($groupDiv);
+    $('.col-fix').append($groups);
   });
 };
 
 var makeAwesomeGroups = function makeAwesomeGroups(classmates, size, ones) {
-
+  console.log('size is', size);
   //shuffle the students
   shuffle(classmates);
   //new array to hold new groups

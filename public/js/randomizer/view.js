@@ -10,9 +10,11 @@ var loadRandomizer = function (data){
         console.log(' this is data data ' ,data.data);
       // window.history.pushState(data.data.id , null, 'randomizer/'+ data.data.name)
         var html = response;
+        var $colFixDiv = $('<div>').addClass('col-fix');
         $('.content').empty();
         $('.content').append(html);
-        var $ol = $('ol');
+        $('.content').append($colFixDiv)
+
 
 
         var $randomOrderBtn = $('#random-order');
@@ -22,8 +24,7 @@ var loadRandomizer = function (data){
         );
         $oneRandomBtn.on('click', oneRandom);
         $randomGroupsBtn.on('click', randomGroupsOptions)
-        var $br = $('<br>');
-        $('.content').append($br);
+
 
         $.ajax({
           url: '/cohorts/'+ data.data.id,
@@ -44,7 +45,7 @@ var loadRandomizer = function (data){
               $ol.append($li);
             });
             $rollCall.append($ol);
-            $('.content').append($rollCall)
+            $($colFixDiv).append($rollCall)
 
 
           },
