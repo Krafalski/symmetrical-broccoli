@@ -7,7 +7,7 @@ var loadRandomizer = function (data){
     url: '../html/randomizer.html',
     type: 'GET',
     success: function ( response ){
-        console.log(' this is data data ' ,data.data);
+
       // window.history.pushState(data.data.id , null, 'randomizer/'+ data.data.name)
         var html = response;
         var $colFixDiv = $('<div>').addClass('col-fix');
@@ -35,7 +35,7 @@ var loadRandomizer = function (data){
 
           success: function ( response ){
             var $h2 = $('h2').text(data.data.name)
-            console.log(response);
+            // console.log(response);
             var $rollCall = $( '<div>' ).addClass( 'rollcall' );
             var $ol = $('<ol>');
             //show members

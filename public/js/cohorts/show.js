@@ -11,10 +11,10 @@ var cohortDashboard  = function (cohortID) {
       success: function ( response ){
         var $container = $('#cotainer');
         //clear content to fill up again
-        console.log($('.content'));
+        // console.log($('.content'));
         var $content = ($('.content'));
         $content.empty();
-        console.log($('.content'));
+        // console.log($('.content'));
         //make new content
 
 
@@ -35,7 +35,7 @@ var cohortDashboard  = function (cohortID) {
 
 
         var $whiteboardButton = $( '<button>').text('whiteboard');
-        console.log(response.name);
+        
         $whiteboardButton.on('click', {id: response._id, name: response.name},loadWhiteboard );
         $actions.append($whiteboardButton);
         var $randomizerButton = $( '<button>').text ('randomizer');

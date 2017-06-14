@@ -23,7 +23,6 @@ var oneRandom = function (){
   var $ol = $('ol');
   var $students = $('li');
   var winner = $students.eq(Math.floor(Math.random()*$students.length+1)).text();
-  console.log(winner);
   var $winnerDiv = $('<div>');
   var $h3 = $('<h3>').text('Congrats '+ winner + '!');
   $ol.prepend($h3)
@@ -43,9 +42,22 @@ var randomGroupsOptions = function (){
   $optionsDiv.append($threes);
   var $fours = $('<button>').text('fours');
   $optionsDiv.append($fours);
+  var $fives = $('<button>').text('fives');
+  $optionsDiv.append($fives);
+  var $custom = $('<button>').text('custom').append('<input>').attr('type','text');
+  $optionsDiv.append($custom);
   $pairs.on('click', {size:2},groupSettings);
   $threes.on('click', {size:3},groupSettings);
   $fours.on('click', {size:4}, groupSettings);
+  $fives.on('click', {size:5}, groupSettings);
+  var custom = 6;
+  $custom.click(  function(){
+    var customSizing = $('input').val();
+    console.log(customSizing);
+    groupSettings(customSizing);
+    $('input').val('');
+
+  });
   var $content = $('.content');
   $optionsDiv.appendTo($content);
   $colFix.appendTo($content);
@@ -53,13 +65,12 @@ var randomGroupsOptions = function (){
 }
 
 var groupSettings = function ( options ){
-  var size = options.data.size;
-
+  var size = options.data.size || options || 111;
+  console.log(size,options.data.size , options);
   $('h3').remove();
   $('.groups').remove();
   var $students = $('li');
   var students= [];
-  console.log('size', size, 'sl - size' , $students.length - size);
   if(size > $students.length - size) {
     size = size -1;
   }
@@ -67,10 +78,8 @@ var groupSettings = function ( options ){
     students.push($students.eq(i).text());
   }
   var studentLock = students.map(function (e) {return e});
-  console.log('studentlock', studentLock);
   var groups = makeAwesomeGroups(studentLock, size);
-  console.log(groups);
-  console.log('studetns after awesome groups' ,students);
+
 
   var $groups = $('<div>').addClass('groups');
   groups.forEach(group=>{
@@ -88,7 +97,7 @@ var groupSettings = function ( options ){
 }
 
 var makeAwesomeGroups = function (classmates, size, ones){
-  console.log('size is', size);
+  // console.log('size is', size);
   //shuffle the students
    shuffle(classmates)
   //new array to hold new groups
@@ -101,10 +110,15 @@ var makeAwesomeGroups = function (classmates, size, ones){
   wholeClass = classmates.map(function(e){
     return e;
   });
-  for (var i = 0; i < wholeClass.length/size-1; i++){
+  for (var i = 0; i < wholeClass.length/size; i++){
     //if we have an odd number of students, we will need one group of 3
-    if (wholeClass.length % 2 !== 0 && classmates.length <= size + 1){
-      //put the remaning three students together
+
+
+    // console.log(classmates.length , wholeClass.length % size !== 0 && classmates.length <= size )
+
+    if (wholeClass.length % size !== 0 && classmates.length <= size+1  ){
+
+      //put the remaning students together
       newBestFriends = classmates.map(function(e){
         return e;
       });
@@ -113,7 +127,9 @@ var makeAwesomeGroups = function (classmates, size, ones){
       arrayOfAwesome.push(newBestFriends);
       //reset newBestFriends
       newBestFriends =[];
-    } else{
+    } else if(wholeClass.length % size !== 0 && classmates.length < size+1  ) {
+      ///aneraeinveioneoainoh2veoon
+    }else{
        //pop off three students from shuffled students array
        for (let j = 0; j < size; j++){
          newBestFriends.push(classmates.pop());
