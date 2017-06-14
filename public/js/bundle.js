@@ -786,7 +786,7 @@ var randomGroupsOptions = function randomGroupsOptions() {
   var $fives = $('<button>').text('fives');
   $optionsDiv.append($fives);
   $optionsDiv.append('<input>').attr('type', 'text');
-  var $custom = $('<button>').text('custom').append('<input>').attr('type', 'text');
+  var $custom = $('<button>').text('custom');
   $optionsDiv.append($custom);
   $pairs.on('click', { size: 2 }, groupSettings);
   $threes.on('click', { size: 3 }, groupSettings);
@@ -867,8 +867,7 @@ var makeAwesomeGroups = function makeAwesomeGroups(classmates, size, ones) {
       arrayOfAwesome.push(newBestFriends);
       //reset newBestFriends
       newBestFriends = [];
-    } else if (wholeClass.length % size !== 0 && classmates.length < size + 1) {
-      ///aneraeinveioneoainoh2veoon
+      break;
     } else {
       //pop off three students from shuffled students array
       for (var j = 0; j < size; j++) {
