@@ -21,7 +21,9 @@ var loadRandomizer = function (data){
         $randomOrderBtn.on('click', randomOrder
         );
         $oneRandomBtn.on('click', oneRandom);
-        $randomGroupsBtn.on('click', randomGroups)
+        $randomGroupsBtn.on('click', randomGroupsOptions)
+        var $br = $('<br>');
+        $('.content').append($br);
 
         $.ajax({
           url: '/cohorts/'+ data.data.id,
@@ -31,7 +33,7 @@ var loadRandomizer = function (data){
           dataType: 'json',
 
           success: function ( response ){
-            var $h2 = $('h2').text('moar progress')
+            var $h2 = $('h2').text(data.data.name)
             console.log(response);
             var $rollCall = $( '<div>' ).addClass( 'rollcall' );
             var $ol = $('<ol>');
