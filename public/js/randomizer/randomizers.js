@@ -44,19 +44,19 @@ var randomGroupsOptions = function (){
   $optionsDiv.append($fours);
   var $fives = $('<button>').text('fives');
   $optionsDiv.append($fives);
+  $optionsDiv.append('<input>').attr('type', 'text')
   var $custom = $('<button>').text('custom').append('<input>').attr('type','text');
   $optionsDiv.append($custom);
   $pairs.on('click', {size:2},groupSettings);
   $threes.on('click', {size:3},groupSettings);
   $fours.on('click', {size:4}, groupSettings);
   $fives.on('click', {size:5}, groupSettings);
-  var custom = 6;
-  $custom.click(  function(){
-    var customSizing = $('input').val();
-    console.log(customSizing);
+  $custom.click(function (e) {
+    var customSizing ={};
+    customSizing.data ={};
+    customSizing.data.size = $('input').val();
     groupSettings(customSizing);
     $('input').val('');
-
   });
   var $content = $('.content');
   $optionsDiv.appendTo($content);

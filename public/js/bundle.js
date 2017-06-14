@@ -785,18 +785,16 @@ var randomGroupsOptions = function randomGroupsOptions() {
   $optionsDiv.append($fours);
   var $fives = $('<button>').text('fives');
   $optionsDiv.append($fives);
-  var $custom = $('<button>').text('custom');
-  $optionsDiv.append('<input>').attr('type', 'text')
-  $optionsDiv.append($custom);
+  $optionsDiv.append('<input>').attr('type', 'text');
+  var $custom = $('<button>').text('custom').append('<input>').attr('type', 'text');
   $optionsDiv.append($custom);
   $pairs.on('click', { size: 2 }, groupSettings);
   $threes.on('click', { size: 3 }, groupSettings);
   $fours.on('click', { size: 4 }, groupSettings);
   $fives.on('click', { size: 5 }, groupSettings);
-  var custom = 6;
   $custom.click(function (e) {
-    var customSizing ={};
-    customSizing.data ={};
+    var customSizing = {};
+    customSizing.data = {};
     customSizing.data.size = $('input').val();
     groupSettings(customSizing);
     $('input').val('');
@@ -806,10 +804,9 @@ var randomGroupsOptions = function randomGroupsOptions() {
   $colFix.appendTo($content);
 };
 
-
 var groupSettings = function groupSettings(options) {
   var size = options.data.size || options || 111;
-  size = parseInt(size);
+  console.log(size, options.data.size, options);
   $('h3').remove();
   $('.groups').remove();
   var $students = $('li');
