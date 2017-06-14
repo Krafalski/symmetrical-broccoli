@@ -40,8 +40,12 @@ var loadRandomizer = function (data){
             var $ol = $('<ol>');
             //show members
             response.members.forEach((m) =>{
-              var $li = $('<li>').text (m.firstName);
+              var $li = $('<li>').text (m.firstName).toggleClass('not-participating', false).toggleClass('participating');
               $li.attr('member-id', m._id);
+              $li.click(function(li){
+                $(this).toggleClass('not-participating');
+                $(this).toggleClass('participating')
+              })
               $ol.append($li);
             });
             $rollCall.append($ol);

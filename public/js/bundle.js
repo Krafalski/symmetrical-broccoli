@@ -707,8 +707,12 @@ var loadRandomizer = function loadRandomizer(data) {
           var $ol = $('<ol>');
           //show members
           response.members.forEach(function (m) {
-            var $li = $('<li>').text(m.firstName);
+            var $li = $('<li>').text(m.firstName).toggleClass('not-participating', false).toggleClass('participating');
             $li.attr('member-id', m._id);
+            $li.click(function (li) {
+              $(this).toggleClass('not-participating');
+              $(this).toggleClass('participating');
+            });
             $ol.append($li);
           });
           $rollCall.append($ol);
@@ -809,7 +813,7 @@ var groupSettings = function groupSettings(options) {
   console.log(size, options.data.size, options);
   $('h3').remove();
   $('.groups').remove();
-  var $students = $('li');
+  var $students = $('.participating');
   var students = [];
   if (size > $students.length - size) {
     size = size - 1;

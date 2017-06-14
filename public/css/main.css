@@ -54,3 +54,8 @@ h2 {
   flex-basis: 30%;
   align-items: center;
 }
+
+.not-participating {
+  opacity: .3;
+  text-decoration: line-through;
+}

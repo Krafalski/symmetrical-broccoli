@@ -69,7 +69,7 @@ var groupSettings = function ( options ){
   console.log(size,options.data.size , options);
   $('h3').remove();
   $('.groups').remove();
-  var $students = $('li');
+  var $students = $('.participating');
   var students= [];
   if(size > $students.length - size) {
     size = size -1;
