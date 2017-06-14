@@ -22,6 +22,9 @@ require ('./members/edit');
 
 //get functionality of whiteboard feature
 require ('./whiteboard/whiteboard');
+require ('./randomizer/app.js');
+require ('./randomizer/randomizers.js');
+require ('./randomizer/view.js');
 
 
 $(function(){

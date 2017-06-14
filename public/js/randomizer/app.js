@@ -55,3 +55,5 @@ window.onload = function() {
   //   });
 
 }; //closes window onload
+
+window.shuffle = shuffle;

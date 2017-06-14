@@ -34,6 +34,7 @@ db.once ( 'open' , function () {
 //------------------------
 var cohortsController    = require ( './controllers/cohorts' );
 var membersController    = require ( './controllers/members' );
+// var randomizerController = require ( './controllers/randomizer');
 
 //------------------------
 // Middleware
@@ -50,6 +51,7 @@ app.use ( bodyParser.urlencoded({ extended : false } ) ); //extened -false does 
 //use controllers at specifed routes
 app.use ( '/cohorts' , cohortsController);
 app.use ( '/members' , membersController);
+// app.use ( '/randomizer', randomizerController);
 
 
 //------------------------

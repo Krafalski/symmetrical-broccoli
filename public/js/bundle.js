@@ -308,9 +308,13 @@ var cohortDashboard = function cohortDashboard(cohortID) {
       var $rollCall = $('<div>').addClass('rollcall');
       var $actions = $('<div>').addClass('actions');
 
-      var $button = $('<button>').text('whiteboard');
-      $button.on('click', { id: response._id }, loadWhiteboard);
-      $actions.append($button);
+      var $whiteboardButton = $('<button>').text('whiteboard');
+      console.log(response.name);
+      $whiteboardButton.on('click', { id: response._id, name: response.name }, loadWhiteboard);
+      $actions.append($whiteboardButton);
+      var $randomizerButton = $('<button>').text('randomizer');
+      $randomizerButton.on('click', { id: response._id, name: response.name }, loadRandomizer);
+      $actions.append($randomizerButton);
 
       //show members
       response.members.forEach(function (m) {
@@ -327,7 +331,7 @@ var cohortDashboard = function cohortDashboard(cohortID) {
       // $('#container').last().remove();
 
 
-      $newContent.prepend($h2);
+      $content.prepend($h2);
     },
     error: function error(_error) {
       console.log('there was an error ');
@@ -361,7 +365,7 @@ var editMember = function editMember(cohortInfo) {
       console.log('cohort info', cohortInfo.data.id);
       $(response).insertAfter(that);
       $('form').attr('action', '/cohorts/' + cohortInfo.data.id + '/members/' + memberId + '?_method=PUT').attr('method', 'POST');
-
+      console.log('first success form', $('form'));
       //in order to update must get member info
       $.ajax({
         url: '/members/' + memberId,
@@ -390,7 +394,8 @@ var editMember = function editMember(cohortInfo) {
         }
       });
 
-      $('#first-name').attr('value');
+      // $('#first-name').attr('value', )
+
     },
     error: function error(_error2) {
       console.log('there was an error ing getting the form', _error2);
@@ -512,7 +517,6 @@ var loadWhiteboard = function loadWhiteboard(data) {
         success: function success(response) {
           console.log(response);
           var $ul = $('ul');
-          console.log($ul);
           response.members.forEach(function (m) {
             var $p = $('<p>').addClass('unchosen');
             $p.text(m.firstName);
@@ -575,6 +579,9 @@ __webpack_require__(5);
 
 //get functionality of whiteboard feature
 __webpack_require__(7);
+__webpack_require__(9);
+__webpack_require__(12);
+__webpack_require__(10);
 
 $(function () {
 
@@ -590,6 +597,185 @@ $(function () {
 
   $listCohorts.on('click', list);
 }); //closes window onload
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+//array of Hopper Students
+var students = ['Adam', 'Amanda', 'An', 'Anthony', 'Biren', 'Cathleen', 'Charles', 'Dylan', 'Ellen', 'Emily', 'Geraldine', 'Hanna', 'Jerrica', 'Jim', 'Joeseph', 'Kylan', 'Lenin', 'Mark', 'Matthew', 'Sheila', 'Soniya', 'Stanley', 'Todd'];
+
+// Check if everyone is there (there should be 23 of you)
+//console.log(students.length);// 23 woot!
+
+//Fisher-Yates Shuffle : https://www.frankmitchell.org/2015/01/fisher-yates/
+function shuffle(array) {
+  var i = 0,
+      j = 0,
+      temp = null;
+
+  for (i = array.length - 1; i > 0; i -= 1) {
+    j = Math.floor(Math.random() * (i + 1));
+    temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+}
+
+//shuffle students
+shuffle(students);
+
+//test that shuffle worked
+//console.log(students);//it worked!
+
+window.onload = function () {
+
+  // var button      = document.getElementsByTagName('button')[0];
+  var container = document.getElementById('container');
+  var table = document.createElement('table');
+  var tbody = document.createElement('tbody');
+  var thead = document.createElement('thead');
+  var th = document.createElement('th');
+  var tr = document.createElement('tr');
+  th.innerHTML = 'Name';
+
+  // button.addEventListener('click', function(){
+  //     for (let i = 0; i < students.length; i++){
+  //       let trBody    = document.createElement('tr');
+  //       let td        = document.createElement('td');
+  //       td.innerHTML  = students[i];
+  //       td.addEventListener ('click', function(){
+  //         td.classList.add('youDidItCongrats');
+  //       });
+  //       trBody.appendChild(td);
+  //       tbody.appendChild(trBody);
+  //     }
+  //
+  //     tr.appendChild(th);
+  //     thead.appendChild(tr);
+  //     table.appendChild(thead);
+  //     table.appendChild(tbody);
+  //     container.appendChild(table);
+  //   });
+}; //closes window onload
+
+window.shuffle = shuffle;
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+$('#random-order').ready(function () {});
+
+var loadRandomizer = function loadRandomizer(data) {
+  $.ajax({
+    url: '../html/randomizer.html',
+    type: 'GET',
+    success: function success(response) {
+      console.log(' this is data data ', data.data);
+      // window.history.pushState(data.data.id , null, 'randomizer/'+ data.data.name)
+      var html = response;
+      $('.content').empty();
+      $('.content').append(html);
+      var $ol = $('ol');
+
+      var $randomOrderBtn = $('#random-order');
+      var $oneRandomBtn = $('#one-random');
+      var $randomGroupsBtn = $('#random-groups');
+      $randomOrderBtn.on('click', randomOrder);
+      $oneRandomBtn.on('click', oneRandom);
+      $randomGroupsBtn.on('click', randomGroups);
+
+      $.ajax({
+        url: '/cohorts/' + data.data.id,
+
+        type: 'GET',
+
+        dataType: 'json',
+
+        success: function success(response) {
+          var $h2 = $('h2').text('moar progress');
+          console.log(response);
+          var $rollCall = $('<div>').addClass('rollcall');
+          var $ol = $('<ol>');
+          //show members
+          response.members.forEach(function (m) {
+            var $li = $('<li>').text(m.firstName);
+            $li.attr('member-id', m._id);
+            $ol.append($li);
+          });
+          $rollCall.append($ol);
+          $('.content').append($rollCall);
+        },
+        error: function error(_error) {
+          console.log('there was an error ', _error);
+        },
+        complete: function complete(xhr, status) {
+          // console.log ('The request is complete');
+        }
+      });
+    },
+    error: function error(_error2) {
+      console.log('there was an error ');
+    },
+    complete: function complete(xhr, status) {
+      // console.log ('The request is complete');
+    }
+  });
+};
+
+window.loadRandomizer = loadRandomizer;
+
+/***/ }),
+/* 11 */,
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var randomOrder = function randomOrder() {
+  $('h3').remove();
+  var $students = $('li');
+  var $newOrder = [];
+  for (var i = 0; i < $students.length; i++) {
+    $newOrder.push($students.eq(i).text());
+  }
+  var $ol = $('ol');
+  $ol.empty();
+  shuffle($newOrder);
+  $newOrder.forEach(function (s) {
+    var $li = $('<li>').text(s);
+    $ol.append($li);
+  });
+};
+
+var oneRandom = function oneRandom() {
+  $('h3').remove();
+  var $ol = $('ol');
+  var $students = $('li');
+  var winner = $students.eq(Math.floor(Math.random() * $students.length)).text();
+  console.log(winner);
+  var $winnerDiv = $('<div>');
+  var $h3 = $('<h3>').text('Congrats ' + winner + '!');
+  $ol.prepend($h3);
+  var $content = $('.content');
+  $content.append($winnerDiv);
+};
+
+var randomGroups = function randomGroups() {
+  console.log('random groups');
+};
+
+window.randomOrder = randomOrder;
+window.oneRandom = oneRandom;
+window.randomGroups = randomGroups;
 
 /***/ })
 /******/ ]);

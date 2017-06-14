@@ -34,9 +34,14 @@ var cohortDashboard  = function (cohortID) {
         var $actions  = $( '<div>' ).addClass ('actions' );
 
 
-        var $button = $( '<button>').text('whiteboard');
-        $button.on('click', {id: response._id},loadWhiteboard );
-        $actions.append($button);
+        var $whiteboardButton = $( '<button>').text('whiteboard');
+        console.log(response.name);
+        $whiteboardButton.on('click', {id: response._id, name: response.name},loadWhiteboard );
+        $actions.append($whiteboardButton);
+        var $randomizerButton = $( '<button>').text ('randomizer');
+        $randomizerButton.on('click', {id: response._id , name: response.name}, loadRandomizer);
+        $actions.append($randomizerButton);
+
 
         //show members
         response.members.forEach((m) =>{
@@ -57,7 +62,7 @@ var cohortDashboard  = function (cohortID) {
 
 
 
-        $newContent.prepend($h2)
+        $content.prepend($h2)
 
 
 

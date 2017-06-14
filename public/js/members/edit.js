@@ -12,7 +12,7 @@ var editMember  = function ( cohortInfo ){
       console.log( 'cohort info' , cohortInfo.data.id) ;
       $( response ).insertAfter(that);
       $( 'form' ).attr('action', '/cohorts/' + cohortInfo.data.id + '/members/' + memberId+'?_method=PUT').attr('method', 'POST');
-
+      console.log('first success form', $('form'));
       //in order to update must get member info
       $.ajax({
         url: '/members/' + memberId,
@@ -43,7 +43,7 @@ var editMember  = function ( cohortInfo ){
 
 
 
-      $('#first-name').attr('value', )
+      // $('#first-name').attr('value', )
 
 
 

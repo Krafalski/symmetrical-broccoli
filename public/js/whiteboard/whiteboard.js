@@ -29,7 +29,6 @@ var loadWhiteboard = function (data) {
           success: function ( response ){
             console.log(response);
             var $ul = $('ul');
-            console.log($ul);
             response.members.forEach(function (m){
               var $p = $('<p>').addClass('unchosen');
               $p.text(m.firstName);
