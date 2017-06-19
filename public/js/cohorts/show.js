@@ -35,7 +35,7 @@ var cohortDashboard  = function (cohortID) {
 
 
         var $whiteboardButton = $( '<button>').text('whiteboard');
-        
+
         $whiteboardButton.on('click', {id: response._id, name: response.name},loadWhiteboard );
         $actions.append($whiteboardButton);
         var $randomizerButton = $( '<button>').text ('randomizer');
@@ -53,6 +53,8 @@ var cohortDashboard  = function (cohortID) {
 
         });
         // console.log(members)
+        var $rosterTitle = $( '<h3>').text('Roster');
+        $rollCall.append( $rosterTitle );
         $rollCall.append($ul);
 
         $twoCols.append( $rollCall, $actions );

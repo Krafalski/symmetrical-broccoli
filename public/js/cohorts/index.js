@@ -22,22 +22,23 @@ var list = function (){
 
        var $body    = $(document.body);
        var $h2      = $( '<h2>' );
-       var $button  = $( '<button>' ).text('See Members').attr('cohort-btn', makeValidClassName).addClass('member-btn');
-       $button.on('click', function() {
-         var getClass = $(this).parent().attr('cohort');
-         //needs tweeking
-         var toggleSpeed = 40 * e.members.length;
-         console.log(e.members.length)
-         var $toggleMembersView = $('.'+ getClass)
-          $toggleMembersView.slideToggle({duration:500,easing:'swing'});
-          if ($(this).text() === 'See Members'){
-            $(this).text('Hide Members')
-          } else {
-            $(this).text('See Members');
-          }
-       });
+      //  var $button  = $( '<button>' ).text('See Members').attr('cohort-btn', makeValidClassName).addClass('member-btn');
+      //  $button.on('click', function() {
+      //    var getClass = $(this).parent().attr('cohort');
+      //    //needs tweeking
+      //    var toggleSpeed = 40 * e.members.length;
+      //    console.log(e.members.length)
+      //    var $toggleMembersView = $('.'+ getClass)
+      //     $toggleMembersView.slideToggle({duration:500,easing:'swing'});
+      //     if ($(this).text() === 'See Members'){
+      //       $(this).text('Hide Members')
+      //     } else {
+      //       $(this).text('See Members');
+      //     }
+      //  });
+      //  $cohort.append($button);
        $cohort.append($h2);
-       $cohort.append($button);
+
        var $input   = $( '<input>' );
        //need to move this functionality within individual cohort's dashboard
        var $x       = $( '<form>' ).attr('action', '/cohorts/' + e._id + '?_method=DELETE' ).attr('method' , 'POST').addClass('delete-btn')

@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -146,22 +146,23 @@ var list = function list() {
 
         var $body = $(document.body);
         var $h2 = $('<h2>');
-        var $button = $('<button>').text('See Members').attr('cohort-btn', makeValidClassName).addClass('member-btn');
-        $button.on('click', function () {
-          var getClass = $(this).parent().attr('cohort');
-          //needs tweeking
-          var toggleSpeed = 40 * e.members.length;
-          console.log(e.members.length);
-          var $toggleMembersView = $('.' + getClass);
-          $toggleMembersView.slideToggle({ duration: 500, easing: 'swing' });
-          if ($(this).text() === 'See Members') {
-            $(this).text('Hide Members');
-          } else {
-            $(this).text('See Members');
-          }
-        });
+        //  var $button  = $( '<button>' ).text('See Members').attr('cohort-btn', makeValidClassName).addClass('member-btn');
+        //  $button.on('click', function() {
+        //    var getClass = $(this).parent().attr('cohort');
+        //    //needs tweeking
+        //    var toggleSpeed = 40 * e.members.length;
+        //    console.log(e.members.length)
+        //    var $toggleMembersView = $('.'+ getClass)
+        //     $toggleMembersView.slideToggle({duration:500,easing:'swing'});
+        //     if ($(this).text() === 'See Members'){
+        //       $(this).text('Hide Members')
+        //     } else {
+        //       $(this).text('See Members');
+        //     }
+        //  });
+        //  $cohort.append($button);
         $cohort.append($h2);
-        $cohort.append($button);
+
         var $input = $('<input>');
         //need to move this functionality within individual cohort's dashboard
         var $x = $('<form>').attr('action', '/cohorts/' + e._id + '?_method=DELETE').attr('method', 'POST').addClass('delete-btn');
@@ -324,6 +325,8 @@ var cohortDashboard = function cohortDashboard(cohortID) {
         $ul.append($li);
       });
       // console.log(members)
+      var $rosterTitle = $('<h3>').text('Roster');
+      $rollCall.append($rosterTitle);
       $rollCall.append($ul);
 
       $twoCols.append($rollCall, $actions);
@@ -489,122 +492,6 @@ window.newMemberForm = newMemberForm;
 "use strict";
 
 
-$('.container').ready(function () {
-  var $unchosen = $('.unchosen').draggable({
-    containment: $('.row'),
-    cursor: 'pointer',
-    snap: $('.grouping')
-  });
-}); //closes document.ready
-
-
-var loadWhiteboard = function loadWhiteboard(data) {
-  $.ajax({
-    url: '../html/whiteboard.html',
-    type: 'GET',
-    success: function success(response) {
-      var html = response;
-      $('.content').children().empty();
-      $('.content').append(html);
-      var $ul = $('ul');
-      $.ajax({
-        url: '/cohorts/' + data.data.id,
-
-        type: 'GET',
-
-        dataType: 'json',
-
-        success: function success(response) {
-          console.log(response);
-          var $ul = $('ul');
-          response.members.forEach(function (m) {
-            var $p = $('<p>').addClass('unchosen');
-            $p.text(m.firstName);
-            $ul.append($p);
-          });
-
-          var $unchosen = $('.unchosen').draggable({
-            containment: $('.row'),
-            cursor: 'pointer',
-            snap: $('.grouping')
-          });
-        },
-        error: function error(_error) {
-          console.log('there was an error ');
-        },
-        complete: function complete(xhr, status) {
-          // console.log ('The request is complete');
-        }
-      });
-    },
-    error: function error(_error2) {
-      console.log('there was an error ');
-    },
-    complete: function complete(xhr, status) {
-      // console.log ('The request is complete');
-    }
-  });
-};
-
-window.loadWhiteboard = loadWhiteboard;
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-//big shout out to https://scotch.io/tutorials/getting-started-with-webpack-module-bundling-magic
-//for helping me get webpack set up
-
-//global variables - need to find better place to put them
-
-// I don't need this any more????
-// var grabCohortID = '';
-
-
-// quick test - need to uncomment button in index.html
-__webpack_require__(0);
-
-//get functionality of cohorts CRUD- create read (index, show) update destroy
-__webpack_require__(2);
-__webpack_require__(3);
-__webpack_require__(4);
-__webpack_require__(1);
-
-//get functionality of members CRUD- create read (index, show) update destroy
-__webpack_require__(6);
-__webpack_require__(5);
-
-//get functionality of whiteboard feature
-__webpack_require__(7);
-__webpack_require__(9);
-__webpack_require__(12);
-__webpack_require__(10);
-
-$(function () {
-
-  var $button = $('.ajax');
-  var $listCohorts = $('.list-cohorts');
-  var $newCohortForm = $('.new-cohort-form');
-  var $newMemberForm = $('.new-member-form');
-
-  // console.log('this is when testAjax is called');
-  // $button.on('click', testAjax);
-  //
-  $newCohortForm.on('click', newCohortForm);
-
-  $listCohorts.on('click', list);
-}); //closes window onload
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 //array of Hopper Students
 var students = ['Adam', 'Amanda', 'An', 'Anthony', 'Biren', 'Cathleen', 'Charles', 'Dylan', 'Ellen', 'Emily', 'Geraldine', 'Hanna', 'Jerrica', 'Jim', 'Joeseph', 'Kylan', 'Lenin', 'Mark', 'Matthew', 'Sheila', 'Soniya', 'Stanley', 'Todd'];
 
@@ -665,81 +552,7 @@ window.onload = function () {
 window.shuffle = shuffle;
 
 /***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-$('#random-order').ready(function () {});
-
-var loadRandomizer = function loadRandomizer(data) {
-  $.ajax({
-    url: '../html/randomizer.html',
-    type: 'GET',
-    success: function success(response) {
-
-      // window.history.pushState(data.data.id , null, 'randomizer/'+ data.data.name)
-      var html = response;
-      var $colFixDiv = $('<div>').addClass('col-fix');
-      $('.content').empty();
-      $('.content').append(html);
-      $('.content').append($colFixDiv);
-
-      var $randomOrderBtn = $('#random-order');
-      var $oneRandomBtn = $('#one-random');
-      var $randomGroupsBtn = $('#random-groups');
-      $randomOrderBtn.on('click', randomOrder);
-      $oneRandomBtn.on('click', oneRandom);
-      $randomGroupsBtn.on('click', randomGroupsOptions);
-
-      $.ajax({
-        url: '/cohorts/' + data.data.id,
-
-        type: 'GET',
-
-        dataType: 'json',
-
-        success: function success(response) {
-          var $h2 = $('h2').text(data.data.name);
-          // console.log(response);
-          var $rollCall = $('<div>').addClass('rollcall');
-          var $ol = $('<ol>');
-          //show members
-          response.members.forEach(function (m) {
-            var $li = $('<li>').text(m.firstName).toggleClass('not-participating', false).toggleClass('participating');
-            $li.attr('member-id', m._id);
-            $li.click(function (li) {
-              $(this).toggleClass('not-participating');
-              $(this).toggleClass('participating');
-            });
-            $ol.append($li);
-          });
-          $rollCall.append($ol);
-          $($colFixDiv).append($rollCall);
-        },
-        error: function error(_error) {
-          console.log('there was an error ', _error);
-        },
-        complete: function complete(xhr, status) {
-          // console.log ('The request is complete');
-        }
-      });
-    },
-    error: function error(_error2) {
-      console.log('there was an error ');
-    },
-    complete: function complete(xhr, status) {
-      // console.log ('The request is complete');
-    }
-  });
-};
-
-window.loadRandomizer = loadRandomizer;
-
-/***/ }),
-/* 11 */,
-/* 12 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -769,14 +582,16 @@ var randomOrder = function randomOrder() {
 var oneRandom = function oneRandom() {
   $('h3').remove();
   $('.group-div').remove();
+  var $colFix = $('.col-fix');
+  console.log($colFix);
   var $ol = $('ol');
-  var $students = $('li');
-  var winner = $students.eq(Math.floor(Math.random() * $students.length + 1)).text();
+  var $students = $('.participating');
+  var winner = $students.eq(Math.floor(Math.random() * $students.length)).text();
   var $winnerDiv = $('<div>');
   var $h3 = $('<h3>').text('Congrats ' + winner + '!');
-  $ol.prepend($h3);
+  $colFix.append($h3);
   var $content = $('.content');
-  $content.append($winnerDiv);
+  $content.append($colFix);
 };
 
 var randomGroupsOptions = function randomGroupsOptions() {
@@ -784,7 +599,8 @@ var randomGroupsOptions = function randomGroupsOptions() {
   $('.groups').remove();
   $('.options').remove();
   var $colFix = $('.col-fix');
-  var $optionsDiv = $('<div>').addClass('options').css('background-color', 'lightsalmon');
+  var $optionsDiv = $('<div>').addClass('options');
+  // .css('background-color', 'lightsalmon');
   var $pairs = $('<button>').text('pairs');
   $optionsDiv.append($pairs);
   var $threes = $('<button>').text('threes');
@@ -793,7 +609,8 @@ var randomGroupsOptions = function randomGroupsOptions() {
   $optionsDiv.append($fours);
   var $fives = $('<button>').text('fives');
   $optionsDiv.append($fives);
-  $optionsDiv.append('<input>').attr('type', 'text');
+  var $customInput = $('<input> ').attr('type', 'text').addClass('custom-input');
+  $optionsDiv.append($customInput);
   var $custom = $('<button>').text('custom');
   $optionsDiv.append($custom);
   $pairs.on('click', { size: 2 }, groupSettings);
@@ -803,7 +620,8 @@ var randomGroupsOptions = function randomGroupsOptions() {
   $custom.click(function (e) {
     var customSizing = {};
     customSizing.data = {};
-    customSizing.data.size = $('input').val();
+    customSizing.data.size = parseInt($('input').val());
+
     groupSettings(customSizing);
     $('input').val('');
   });
@@ -814,7 +632,7 @@ var randomGroupsOptions = function randomGroupsOptions() {
 
 var groupSettings = function groupSettings(options) {
   var size = options.data.size || options || 111;
-  console.log(size, options.data.size, options);
+  // console.log(size,options.data.size , options);
   $('h3').remove();
   $('.groups').remove();
   var $students = $('.participating');
@@ -822,6 +640,7 @@ var groupSettings = function groupSettings(options) {
   if (size > $students.length - size) {
     size = size - 1;
   }
+  console.log(size);
   for (var i = 0; i < $students.length; i++) {
     students.push($students.eq(i).text());
   }
@@ -832,7 +651,7 @@ var groupSettings = function groupSettings(options) {
 
   var $groups = $('<div>').addClass('groups');
   groups.forEach(function (group) {
-    var $groupDiv = $('<div>').addClass('group-div').css('border', '1px solid gold');
+    var $groupDiv = $('<div>').addClass('group-div').css('border', '1px solid rgba(222, 229, 229, 1)');
     var $ul = $('<ul>');
     group.forEach(function (person) {
       var $li = $('<li>').text(person);
@@ -844,8 +663,32 @@ var groupSettings = function groupSettings(options) {
   });
 };
 
+var reset = function reset() {
+  $('h3').remove();
+  $('.groups').remove();
+  var $students = $('li');
+  var orderStudents = [];
+  for (var i = 0; i < $students.length; i++) {
+    orderStudents.push($students.eq(i).text());
+  }
+  orderStudents.sort();
+  $('.rollcall').empty();
+  var $ol = $('<ol>');
+  $ol.appendTo($('.rollcall'));
+  orderStudents.forEach(function (s) {
+    var $li = $('<li>').text(s).toggleClass('not-participating', false).toggleClass('participating');
+    $li.click(function (li) {
+      $(this).toggleClass('not-participating');
+      $(this).toggleClass('participating');
+    });
+    $ol.append($li);
+  });
+
+  console.log(orderStudents);
+};
+
 var makeAwesomeGroups = function makeAwesomeGroups(classmates, size, ones) {
-  // console.log('size is', size);
+
   //shuffle the students
   shuffle(classmates);
   //new array to hold new groups
@@ -862,25 +705,31 @@ var makeAwesomeGroups = function makeAwesomeGroups(classmates, size, ones) {
     //if we have an odd number of students, we will need one group of 3
 
 
-    // console.log(classmates.length , wholeClass.length % size !== 0 && classmates.length <= size )
+    // console.log(classmates.length , wholeClass.length % size !== 0,classmates.length <= size +1 , wholeClass.length % size !== 0 && classmates.length <= size +1, wholeClass.length/size, i)
+
 
     if (wholeClass.length % size !== 0 && classmates.length <= size + 1) {
-
       //put the remaning students together
       newBestFriends = classmates.map(function (e) {
         return e;
       });
       //there are no more classmates to be placed
       classmates = [];
+      //sort array alphabetically
+      newBestFriends = newBestFriends.sort();
       arrayOfAwesome.push(newBestFriends);
       //reset newBestFriends
       newBestFriends = [];
       break;
     } else {
       //pop off three students from shuffled students array
+
       for (var j = 0; j < size; j++) {
+
         newBestFriends.push(classmates.pop());
       }
+      //sort array alphabetically
+      newBestFriends = newBestFriends.sort();
       //add pairs
       arrayOfAwesome.push(newBestFriends);
       //reset newBestFriends
@@ -895,6 +744,199 @@ var makeAwesomeGroups = function makeAwesomeGroups(classmates, size, ones) {
 window.randomOrder = randomOrder;
 window.oneRandom = oneRandom;
 window.randomGroupsOptions = randomGroupsOptions;
+window.reset = reset;
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+$('#random-order').ready(function () {});
+
+var loadRandomizer = function loadRandomizer(data) {
+  $.ajax({
+    url: '../html/randomizer.html',
+    type: 'GET',
+    success: function success(response) {
+
+      // window.history.pushState(data.data.id , null, 'randomizer/'+ data.data.name)
+      var html = response;
+      var $colFixDiv = $('<div>').addClass('col-fix');
+      $('.content').empty();
+      $('.content').append(html);
+      $('.content').append($colFixDiv);
+
+      var $randomOrderBtn = $('#random-order');
+      var $oneRandomBtn = $('#one-random');
+      var $resetBtn = $('#reset');
+      $randomOrderBtn.on('click', randomOrder);
+      $oneRandomBtn.on('click', oneRandom);
+      $resetBtn.on('click', reset);
+      randomGroupsOptions();
+
+      $.ajax({
+        url: '/cohorts/' + data.data.id,
+
+        type: 'GET',
+
+        dataType: 'json',
+
+        success: function success(response) {
+          var $h2 = $('h2').text(data.data.name);
+          // console.log(response);
+          var $rollCall = $('<div>').addClass('rollcall');
+          var $ol = $('<ol>');
+          //show members
+          response.members.forEach(function (m) {
+            var $li = $('<li>').text(m.firstName).toggleClass('not-participating', false).toggleClass('participating');
+            $li.attr('member-id', m._id);
+            $li.click(function (li) {
+              $(this).toggleClass('not-participating');
+              $(this).toggleClass('participating');
+            });
+            $ol.append($li);
+          });
+          var $rosterTitle = $('<h3>').text('Roster');
+          $rollCall.append($rosterTitle);
+          $rollCall.append($ol);
+          $($colFixDiv).append($rollCall);
+        },
+        error: function error(_error) {
+          console.log('there was an error ', _error);
+        },
+        complete: function complete(xhr, status) {
+          // console.log ('The request is complete');
+        }
+      });
+    },
+    error: function error(_error2) {
+      console.log('there was an error ');
+    },
+    complete: function complete(xhr, status) {
+      // console.log ('The request is complete');
+    }
+  });
+};
+
+window.loadRandomizer = loadRandomizer;
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+$('.container').ready(function () {
+  var $unchosen = $('.unchosen').draggable({
+    containment: $('.row'),
+    cursor: 'pointer',
+    snap: $('.grouping')
+  });
+}); //closes document.ready
+
+
+var loadWhiteboard = function loadWhiteboard(data) {
+  $.ajax({
+    url: '../html/whiteboard.html',
+    type: 'GET',
+    success: function success(response) {
+      var html = response;
+      $('.content').children().empty();
+      $('.content').append(html);
+      var $ul = $('ul');
+      $.ajax({
+        url: '/cohorts/' + data.data.id,
+
+        type: 'GET',
+
+        dataType: 'json',
+
+        success: function success(response) {
+          console.log(response);
+          var $ul = $('ul');
+          response.members.forEach(function (m) {
+            var $p = $('<p>').addClass('unchosen');
+            $p.text(m.firstName);
+            $ul.append($p);
+          });
+
+          var $unchosen = $('.unchosen').draggable({
+            containment: $('.row'),
+            cursor: 'pointer',
+            snap: $('.grouping')
+          });
+        },
+        error: function error(_error) {
+          console.log('there was an error ');
+        },
+        complete: function complete(xhr, status) {
+          // console.log ('The request is complete');
+        }
+      });
+    },
+    error: function error(_error2) {
+      console.log('there was an error ');
+    },
+    complete: function complete(xhr, status) {
+      // console.log ('The request is complete');
+    }
+  });
+};
+
+window.loadWhiteboard = loadWhiteboard;
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+//big shout out to https://scotch.io/tutorials/getting-started-with-webpack-module-bundling-magic
+//for helping me get webpack set up
+
+//global variables - need to find better place to put them
+
+// I don't need this any more????
+// var grabCohortID = '';
+
+
+// quick test - need to uncomment button in index.html
+__webpack_require__(0);
+
+//get functionality of cohorts CRUD- create read (index, show) update destroy
+__webpack_require__(2);
+__webpack_require__(3);
+__webpack_require__(4);
+__webpack_require__(1);
+
+//get functionality of members CRUD- create read (index, show) update destroy
+__webpack_require__(6);
+__webpack_require__(5);
+
+//get functionality of whiteboard feature
+__webpack_require__(10);
+__webpack_require__(7);
+__webpack_require__(8);
+__webpack_require__(9);
+
+$(function () {
+
+  var $button = $('.ajax');
+  var $listCohorts = $('.list-cohorts');
+  var $newCohortForm = $('.new-cohort-form');
+  var $newMemberForm = $('.new-member-form');
+
+  // console.log('this is when testAjax is called');
+  // $button.on('click', testAjax);
+  //
+  $newCohortForm.on('click', newCohortForm);
+
+  $listCohorts.on('click', list);
+}); //closes window onload
 
 /***/ })
 /******/ ]);

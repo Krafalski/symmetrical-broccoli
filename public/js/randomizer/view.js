@@ -19,12 +19,12 @@ var loadRandomizer = function (data){
 
         var $randomOrderBtn = $('#random-order');
         var $oneRandomBtn = $('#one-random');
-        var $randomGroupsBtn = $('#random-groups');
+        var $resetBtn = $('#reset');
         $randomOrderBtn.on('click', randomOrder
         );
         $oneRandomBtn.on('click', oneRandom);
-        $randomGroupsBtn.on('click', randomGroupsOptions)
-
+        $resetBtn.on('click', reset)
+        randomGroupsOptions();
 
         $.ajax({
           url: '/cohorts/'+ data.data.id,
@@ -48,8 +48,11 @@ var loadRandomizer = function (data){
               })
               $ol.append($li);
             });
+            var $rosterTitle = $( '<h3>').text('Roster');
+            $rollCall.append( $rosterTitle );
             $rollCall.append($ol);
-            $($colFixDiv).append($rollCall)
+            $($colFixDiv).append($rollCall);
+
 
 
           },
