@@ -87,6 +87,14 @@ h2 {
   padding: .2em 1em;
 }
 
+.swappable:hover, .selected {
+  background-color: $hover;
+}
+
+.selected {
+  background-color: lighten($hover, 20%);
+}
+
 li {
   margin: .02em !important;
 }

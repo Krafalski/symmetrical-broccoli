@@ -1,3 +1,7 @@
+//global values
+var select1 = "";
+var select2 = "";
+
 var randomOrder = function (){
   $('h3').remove();
   $('.group-div').remove();
@@ -98,7 +102,21 @@ var groupSettings = function ( options ){
     var $groupDiv = $('<div>').addClass('group-div').css('border', '1px solid rgba(222, 229, 229, 1)');
     var $ul = $('<ul>');
     group.forEach(person=>{
-      var $li = $('<li>').text(person);
+      var $li = $('<li>').text(person).addClass('swappable');
+      $li.on ('click', function (){
+        if (!select1){
+        $(this).toggleClass('selected');
+        select1 = $(this).text();
+      } else {
+        //select 1 has a value
+        select2 = $(this).text();
+        var temp = select2;
+        select2 = $(this).text(select1);
+        $('.selected').text(temp).removeClass('selected');
+        select1 = "";
+        select2= "";
+      }
+      });
       $ul.append($li)
     });
     $groupDiv.append($ul);

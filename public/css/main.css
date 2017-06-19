@@ -950,6 +950,12 @@ h2 {
 .group-div {
   padding: .2em 1em; }
 
+.swappable:hover, .selected {
+  background-color: #64e9ee; }
+
+.selected {
+  background-color: #c0f6f8; }
+
 li {
   margin: .02em !important; }
 
