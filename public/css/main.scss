@@ -1,0 +1,82 @@
+@import "color_palette";
+@import url('https://fonts.googleapis.com/css?family=Bubbler+One|Montserrat');
+@import "normalize";
+@import "skeleton";
+
+
+$montserrat: 'Montserrat', sans-serif;
+$bubbler-one: 'Bubbler One', sans-serif;
+
+@import "whiteboard";
+
+
+* {
+  border: 1px solid pink;
+}
+
+h1, h2, h3 {
+    font-family: $montserrat;
+}
+
+body {
+  font-family: $bubbler-one;
+}
+.container {
+  clear:both;
+
+}
+
+body {
+  text-align: center;
+}
+
+table {
+  margin:auto;
+}
+
+.youDidItCongrats {
+  opacity: 0.3;
+}
+
+h2 {
+  display: inline-block;
+}
+
+.delete-btn, .member-btn, .btn, button {
+  display: inline-block !important;
+  background-color: $button-background !important;
+  margin: 1em 1em;
+}
+
+.two-cols {
+  display: flex;
+  widht: 70%;
+}
+
+ .actions {
+  width: 25%;
+
+}
+ .rollcall {
+    width: 20%;
+    display: inline-block;
+}
+
+.col-fix {
+  display: flex;
+  justify-content: space-around;
+}
+
+.groups {
+  display: flex;
+  width: 60%;
+  justify-content: space-around;
+  flex-flow: row wrap;
+  flex-basis: 30%;
+  align-items: center;
+}
+
+.not-participating {
+  opacity: .3;
+  text-decoration: line-through;
+}
