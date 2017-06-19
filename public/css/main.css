@@ -891,13 +891,14 @@ p {
   margin: 0 auto; }
 
 * {
-  border: 1px solid pink; }
+  border: 1px solid ghostwhite; }
 
 h1, h2, h3 {
   font-family: "Montserrat", sans-serif; }
 
 body {
-  font-family: "Bubbler One", sans-serif; }
+  font-family: "Bubbler One", sans-serif;
+  color: #3e505b; }
 
 .container {
   clear: both; }
@@ -921,7 +922,7 @@ h2 {
 
 .two-cols {
   display: flex;
-  widht: 70%; }
+  widht: 90%; }
 
 .actions {
   width: 25%; }
@@ -936,14 +937,18 @@ h2 {
 
 .groups {
   display: flex;
-  width: 60%;
   justify-content: space-around;
   flex-flow: row wrap;
-  flex-basis: 30%;
-  align-items: center; }
+  flex-basis: 60%;
+  align-items: center;
+  margin-right: .1em; }
 
 .not-participating {
   opacity: .3;
   text-decoration: line-through; }
+
+.custom-input {
+  padding: .2em;
+  width: 2.5em; }
 
 /*# sourceMappingURL=main.css.map */

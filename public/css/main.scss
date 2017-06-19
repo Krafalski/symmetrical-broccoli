@@ -11,7 +11,8 @@ $bubbler-one: 'Bubbler One', sans-serif;
 
 
 * {
-  border: 1px solid pink;
+  border: 1px solid ghostwhite;
+
 }
 
 h1, h2, h3 {
@@ -20,6 +21,7 @@ h1, h2, h3 {
 
 body {
   font-family: $bubbler-one;
+  color: $font-color;
 }
 .container {
   clear:both;
@@ -50,7 +52,7 @@ h2 {
 
 .two-cols {
   display: flex;
-  widht: 70%;
+  widht: 90%;
 }
 
  .actions {
@@ -69,14 +71,19 @@ h2 {
 
 .groups {
   display: flex;
-  width: 60%;
   justify-content: space-around;
   flex-flow: row wrap;
-  flex-basis: 30%;
+  flex-basis: 60%;
   align-items: center;
+  margin-right: .1em;
 }
 
 .not-participating {
   opacity: .3;
   text-decoration: line-through;
+}
+
+.custom-input {
+  padding: .2em;
+  width: 2.5em;
 }
