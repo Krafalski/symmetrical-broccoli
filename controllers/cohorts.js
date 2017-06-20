@@ -205,22 +205,32 @@ cohorts.put('/:id/members/:m_id', (req , res) => {
 
 //BUSTED time take a break
 cohorts.delete('/:id/members/:m_id', (req , res) => {
+//   //remove member INSIDE cohort
+
+  Cohort.update({'members._id': req.params.m_id}, {$pull: {members: { _id : req.params.m_id }}}
+, ( err , foundMember ) => {
+    if (err){
+      console.log ( err ); }
+    else{
+      //remove member Not within Cohort
+      console.log(' else no error res send next?');
+      Member.findByIdAndRemove( req.params.m_id, req.body , ( err , foundMember) => {
+        if (err){
+          console.log( 'Member error');
+          console.log( err );
+        }
+        console.log ('found member?', foundMember);
+        res.send(foundMember)
 
 
-  Cohort.findByIdAndRemove(req.params.m_id,
- ( err , foundMember)=>{
-    if (err){console.log ( err )}
-    else {console.log ('found member?', foundMember)}
+});
+  }
 
 
-    //works
-    //update member NOT within cohort
-    Member.findByIdAndRemove( req.params.m_id, req.body, {new: true} , ( err , foundMember) => {
+});
 
-      res.send(foundMember)
-    });
 
-  })
+
 });
 
 
