@@ -1,15 +1,8 @@
 //big shout out to https://scotch.io/tutorials/getting-started-with-webpack-module-bundling-magic
 //for helping me get webpack set up
 
-//global variables - need to find better place to put them
-
-// I don't need this any more????
-// var grabCohortID = '';
-
-
-
 // quick test - need to uncomment button in index.html
-require ('./ajax_test');
+// require ('./ajax_test');
 
 //get functionality of cohorts CRUD- create read (index, show) update destroy
 require ('./cohorts/index');
@@ -28,16 +21,12 @@ require ('./randomizer/randomizers.js');
 require ('./randomizer/view.js');
 
 
+//on document ready :
 $(function(){
 
-var $button             = $( '.ajax' );
-var $listCohorts        = $( '.list-cohorts' );
-var $newCohortForm      = $( '.new-cohort-form' );
-var $newMemberForm      = $( '.new-member-form' );
+const $listCohorts        = $( '.list-cohorts' );
+const $newCohortForm      = $( '.new-cohort-form' );
 
-// console.log('this is when testAjax is called');
-// $button.on('click', testAjax);
-//
 $newCohortForm.on('click', newCohortForm);
 
 $listCohorts.on( 'click', list );

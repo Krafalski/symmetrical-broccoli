@@ -4,6 +4,8 @@
 
 const mongoose          = require ( 'mongoose' );
 const Schema            = mongoose.Schema;
+//set promises library to native ES6 Promise
+mongoose.Promise = Promise;
 
 //------------------------
 // Set Up Schema

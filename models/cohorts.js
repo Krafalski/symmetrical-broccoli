@@ -6,6 +6,9 @@ const mongoose          = require ( 'mongoose' );
 const Schema            = mongoose.Schema;
 const Member            = require ( './members');
 
+//set promises library to native ES6 Promise
+mongoose.Promise = Promise;
+
 //------------------------
 // Set Up Schema
 //------------------------

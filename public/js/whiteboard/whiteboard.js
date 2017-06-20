@@ -1,12 +1,10 @@
 $('.container').ready(function (){
-  var $unchosen = $('.unchosen').draggable({
-    containment:  $('.row'),
-    cursor     : 'pointer',
-    snap       :$('.grouping')
-  }
-);
-
-
+    var $unchosen = $('.unchosen').draggable({
+      containment:  $('.row'),
+      cursor     : 'pointer',
+      snap       :$('.grouping')
+    }
+  );
 });//closes document.ready
 
 
@@ -49,12 +47,6 @@ var loadWhiteboard = function (data) {
           // console.log ('The request is complete');
           }
         });
-
-
-
-
-
-
     },
     error: function ( error ) {
       console.log ( 'there was an error ' );

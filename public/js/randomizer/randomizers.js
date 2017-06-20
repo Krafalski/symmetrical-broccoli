@@ -29,7 +29,7 @@ var oneRandom = function (){
   $('h3').remove();
   $('.group-div').remove();
   var $colFix = $( '.col-fix' );
-  console.log($colFix);
+
   var $ol = $('ol');
   var $students = $('.participating');
   var winner = $students.eq(Math.floor(Math.random()*$students.length)).text();
@@ -89,7 +89,7 @@ var groupSettings = function ( options ){
   if(size > $students.length - size) {
     size = size -1;
   }
-  console.log(size);
+
   for (let i = 0; i < $students.length; i++){
     students.push($students.eq(i).text());
   }
@@ -147,7 +147,6 @@ var reset = function (){
     $ol.append( $li );
   });
 
-  console.log(orderStudents);
 }
 
 var makeAwesomeGroups = function (classmates, size, ones){

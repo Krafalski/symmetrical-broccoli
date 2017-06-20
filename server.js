@@ -11,7 +11,7 @@ const app               = express ();
 // Port
 //------------------------
 
-var PORT                = process.env.PORT || 3000;
+const PORT                = process.env.PORT || 3000;
 
 //------------------------
 // Database

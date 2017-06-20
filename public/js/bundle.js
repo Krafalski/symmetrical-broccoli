@@ -67,30 +67,7 @@
 /******/ })
 /************************************************************************/
 /******/ ([
-/* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var testAjax = function testAjax() {
-  $.ajax({
-    url: '/cohorts',
-
-    success: function success() {
-      $('<h1>').text('u did it!').appendTo('body');
-    },
-    error: function error() {
-      alert('Sorry, there was a problem');
-    }
-
-  });
-};
-
-//http://stackoverflow.com/questions/38202092/why-javascript-function-coming-undefiend-after-compiling-from-webpack
-window.testAjax = testAjax;
-
-/***/ }),
+/* 0 */,
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -587,7 +564,7 @@ var oneRandom = function oneRandom() {
   $('h3').remove();
   $('.group-div').remove();
   var $colFix = $('.col-fix');
-  console.log($colFix);
+
   var $ol = $('ol');
   var $students = $('.participating');
   var winner = $students.eq(Math.floor(Math.random() * $students.length)).text();
@@ -644,7 +621,7 @@ var groupSettings = function groupSettings(options) {
   if (size > $students.length - size) {
     size = size - 1;
   }
-  console.log(size);
+
   for (var i = 0; i < $students.length; i++) {
     students.push($students.eq(i).text());
   }
@@ -701,8 +678,6 @@ var reset = function reset() {
     });
     $ol.append($li);
   });
-
-  console.log(orderStudents);
 };
 
 var makeAwesomeGroups = function makeAwesomeGroups(classmates, size, ones) {
@@ -916,14 +891,8 @@ window.loadWhiteboard = loadWhiteboard;
 //big shout out to https://scotch.io/tutorials/getting-started-with-webpack-module-bundling-magic
 //for helping me get webpack set up
 
-//global variables - need to find better place to put them
-
-// I don't need this any more????
-// var grabCohortID = '';
-
-
 // quick test - need to uncomment button in index.html
-__webpack_require__(0);
+// require ('./ajax_test');
 
 //get functionality of cohorts CRUD- create read (index, show) update destroy
 __webpack_require__(2);
@@ -941,16 +910,12 @@ __webpack_require__(7);
 __webpack_require__(8);
 __webpack_require__(9);
 
+//on document ready :
 $(function () {
 
-  var $button = $('.ajax');
   var $listCohorts = $('.list-cohorts');
   var $newCohortForm = $('.new-cohort-form');
-  var $newMemberForm = $('.new-member-form');
 
-  // console.log('this is when testAjax is called');
-  // $button.on('click', testAjax);
-  //
   $newCohortForm.on('click', newCohortForm);
 
   $listCohorts.on('click', list);
