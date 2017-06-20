@@ -1,5 +1,5 @@
 $('.container').ready(function (){
-    var $unchosen = $('.unchosen').draggable({
+    let $unchosen = $('.unchosen').draggable({
       containment:  $('.row'),
       cursor     : 'pointer',
       snap       :$('.grouping')
@@ -8,15 +8,15 @@ $('.container').ready(function (){
 });//closes document.ready
 
 
-var loadWhiteboard = function (data) {
+function loadWhiteboard(data) {
   $.ajax({
     url: '../html/whiteboard.html',
     type: 'GET',
     success: function ( response ){
-        var html = response;
-        $('.content').children().empty();
+        let html = response;
+        $('.content').empty();
         $('.content').append(html);
-        var $ul = $('ul');
+        let $ul = $('ul');
         $.ajax({
           url: '/cohorts/'+data.data.id,
 
@@ -25,15 +25,15 @@ var loadWhiteboard = function (data) {
           dataType: 'json',
 
           success: function ( response ){
-            console.log(response);
-            var $ul = $('ul');
+
+            let $ul = $('ul');
             response.members.forEach(function (m){
-              var $p = $('<p>').addClass('unchosen');
+              let $p = $('<p>').addClass('unchosen');
               $p.text(m.firstName);
               $ul.append($p)
             });
 
-            var $unchosen = $('.unchosen').draggable({
+            let $unchosen = $('.unchosen').draggable({
               containment:  $('.row'),
               cursor     : 'pointer',
               snap       :$('.grouping')

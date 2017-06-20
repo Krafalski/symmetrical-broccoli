@@ -831,13 +831,13 @@ $('.container').ready(function () {
 }); //closes document.ready
 
 
-var loadWhiteboard = function loadWhiteboard(data) {
+function loadWhiteboard(data) {
   $.ajax({
     url: '../html/whiteboard.html',
     type: 'GET',
     success: function success(response) {
       var html = response;
-      $('.content').children().empty();
+      $('.content').empty();
       $('.content').append(html);
       var $ul = $('ul');
       $.ajax({
@@ -848,7 +848,7 @@ var loadWhiteboard = function loadWhiteboard(data) {
         dataType: 'json',
 
         success: function success(response) {
-          console.log(response);
+
           var $ul = $('ul');
           response.members.forEach(function (m) {
             var $p = $('<p>').addClass('unchosen');
