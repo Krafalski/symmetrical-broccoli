@@ -3,7 +3,7 @@ var newMember = {cohortId : $('.add-new-member').attr('id')}
 //works
 var newMemberForm = function(){
   var cohortId =($(this).attr('id'));
-  console.log(cohortId);
+  // console.log(cohortId);
   $.ajax({
    url:'../html/new_member_form.html',
 
@@ -19,7 +19,7 @@ var newMemberForm = function(){
      var $submit = $ ( '.submit' );
      $submit.on('click', function (e){
        e.preventDefault();
-       console.log( 'default prevented');
+      //  console.log( 'default prevented');
 
        var newMember = {
          cohortId : $('.add-new-member').attr('id'),
@@ -43,7 +43,7 @@ var newMemberForm = function(){
          dataType: 'json',
 
          success: function ( response ){
-           console.log ('the data was created' , response);
+          //  console.log ('the data was created' , response);
            window.cohortDashboard(newMember.cohortId);
 
          },
@@ -51,7 +51,7 @@ var newMemberForm = function(){
            console.log ( 'there was an error ', error );
          },
          complete: function (xhr , status) {
-           console.log ('The request is complete');
+          //  console.log ('The request is complete');
          }
        }); //closes closest ajax
      }); //closes on

@@ -61,11 +61,11 @@ cohorts.get( '/' , ( req , res ) => {
 });
 
 
-// New    : GET    '/prodcuts/new'      3/7
+// New    : GET
 // don't need it it is in the jQuery
 
 
-// Show   : GET    '/products/:id'      2/7
+// Show   : GET
 
 cohorts.get ('/:id', ( req , res ) => {
   Cohort.findById(req.params.id , ( error , foundCohort) =>{
@@ -88,20 +88,20 @@ cohorts.get ('/:id', ( req , res ) => {
   });
 });
 
-// Create : POST   '/products'          4/7
+// Create : POST
 cohorts.post ( '/' , ( req , res) => {
   Cohort.create ( req.body , ( err , cohort) => {
-    console.log(req.body, 'this is req.body');
+
     if ( err ) { res.send ( err ); }
     else { res.send (req.body); }
   });
 });
 
-// Edit   : GET    '/products/:id/edit' 5/7
+// Edit   : GET
 // don't need it it is in the jQuery
 
 
-// Update : PUT    '/products/:id'      6/7
+// Update : PUT    '/products/:id'
 cohorts.put ( '/:id' , ( req , res ) => {
   Cohort.findByIdAndUpdate (req.params.id , req.body, { new:  true },  ( err , cohort ) =>{
     console.log ('updating',  req.body , cohort)
@@ -110,8 +110,7 @@ cohorts.put ( '/:id' , ( req , res ) => {
   });
 })
 
-
-
+//Removes cohort and removes all associated members from the cohort array and from the members model/schema
 cohorts.delete('/:id', function(req, res){
   	Cohort.findByIdAndRemove(req.params.id, function(err, foundCohort){
   		var memberIds = [];
@@ -133,50 +132,11 @@ cohorts.delete('/:id', function(req, res){
   });
 
 
-
-// Delete : DELETE '/products/:id'      7/7
-// cohorts.delete ( '/:id' , ( req , res) => {
-//   Cohort.findById( req.params.id , function (err , foundCohort ) {
-//
-//     if (err){ console.log ( err )}
-//
-//     var grabIds = foundCohort.members.map(function(m){
-//       return m._id.toString();
-//    });
-//    console.log(grabIds);
-//
-//    Member.find(
-//      {
-//         _id: {
-//           $in: grabIds
-//         }
-//       },
-//       function  ( error, removed ) {
-//      if ( error ) {console.log( error )}
-//      console.log ('removed', removed)
-//    })
-//
-//     // foundCohort.members.forEach((m)=>{
-//     //   var mIdString =  m._id.toString();
-//     //   console.log(m.firstName,  m._id, typeof m._id, typeof m._id.toString());
-//     //   Member.findByIdAndUpdate(mIdString  , {'firstName' : "Todd"},(error , removedMember)=>{
-//     //     if (error ){console.log(error)}
-//     //     console.log( 'goodbye!', removedMember)
-//     //   });
-//     // })
-//   })
-//   //get first part working then do this
-//   // Cohort.findByIdAndRemove ( req.params.id , ( err , cohort ) => {
-//   //   if ( err ) { console.log ( err ); }
-//       res.redirect( '/' );
-//   // })
-// });
-
 //http://stackoverflow.com/questions/15691224/mongoose-update-values-in-array-of-objects
 //Update Member, nested Route
-//only updates the member? what about both?!
+
 cohorts.put('/:id/members/:m_id', (req , res) => {
-  console.log('this is req.body' , req.body)
+
 
   Cohort.findOneAndUpdate({'members._id': req.params.m_id},{
     $set:{
@@ -190,20 +150,22 @@ cohorts.put('/:id/members/:m_id', (req , res) => {
      }}
 , ( err , foundMember)=>{
     if (err){console.log ( err )}
-    else{ console.log ('found member?', foundMember)}
+    else{
+      // console.log ('found member?', foundMember)
+    }
 
 
     //works
     //update member NOT within cohort
     Member.findByIdAndUpdate( req.params.m_id, req.body, {new: true} , ( err , foundMember) => {
-      res.send(foundMember)
+      res.redirect('/');
     });
 
   })
 });
-//route needs to be tested
 
-//BUSTED time take a break
+
+//Delete Member, nested route
 cohorts.delete('/:id/members/:m_id', (req , res) => {
 //   //remove member INSIDE cohort
 
@@ -213,14 +175,14 @@ cohorts.delete('/:id/members/:m_id', (req , res) => {
       console.log ( err ); }
     else{
       //remove member Not within Cohort
-      console.log(' else no error res send next?');
+
       Member.findByIdAndRemove( req.params.m_id, req.body , ( err , foundMember) => {
         if (err){
-          console.log( 'Member error');
+
           console.log( err );
         }
-        console.log ('found member?', foundMember);
-        res.send(foundMember)
+
+        res.redirect('/')
 
 
 });

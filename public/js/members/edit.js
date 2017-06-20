@@ -9,10 +9,10 @@ var editMember  = function ( cohortInfo ){
 
     success : function ( response ){
       // console.log($(this));
-      console.log( 'cohort info' , cohortInfo.data.id) ;
+      // console.log( 'cohort info' , cohortInfo.data.id) ;
       $( response ).insertAfter(that);
       $( 'form' ).attr('action', '/cohorts/' + cohortInfo.data.id + '/members/' + memberId+'?_method=PUT').attr('method', 'POST');
-      console.log('first success form', $('form'));
+      // console.log('first success form', $('form'));
       //in order to update must get member info
       $.ajax({
         url: '/members/' + memberId,
@@ -20,14 +20,14 @@ var editMember  = function ( cohortInfo ){
         dataType: 'json',
 
         success: function( member ){
-          console.log( 'this is student get' ,member );
+          // console.log( 'this is student get' ,member );
           $( '#first-name' ).attr( 'value', member.firstName );
           $( '#last-name' ).attr( 'value' , member.lastName );
           $( '#nick-name' ).attr( 'value', member.nickName );
           $( '#position' ).attr( 'value', member.position );
           $( '#notes' ).attr( 'value', member.notes );
           var $form = $( 'form' );
-          console.log($form)
+          // console.log($form)
           var $delete = $ ( '<form>' ).attr('action', '/cohorts/' + cohortInfo.data.id + '/members/'+ member._id + '?_method=DELETE' ).attr('method' , 'POST') ;
           var $deleteBtn = $( '<input>' ).attr('type', 'submit' ).addClass( 'btn' ).attr('value', 'delete forever');
           $delete.append( $deleteBtn );

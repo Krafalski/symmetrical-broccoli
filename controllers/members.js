@@ -30,7 +30,7 @@ members.get('/:id', (req , res ) => {
 
 members.post( '/' , ( req, res ) => {
   Cohort.findById ( req.body.cohortId ,(error , foundCohort ) => {
-    console.log('this is found cohort delete route???', foundCohort)
+    // console.log('this is found cohort delete route???', foundCohort)
     Member.create(req.body, ( error , createdMember )=> {
       foundCohort.members.push(createdMember);
       foundCohort.save( (error , data )=>{

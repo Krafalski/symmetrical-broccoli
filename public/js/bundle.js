@@ -365,10 +365,10 @@ var editMember = function editMember(cohortInfo) {
 
     success: function success(response) {
       // console.log($(this));
-      console.log('cohort info', cohortInfo.data.id);
+      // console.log( 'cohort info' , cohortInfo.data.id) ;
       $(response).insertAfter(that);
       $('form').attr('action', '/cohorts/' + cohortInfo.data.id + '/members/' + memberId + '?_method=PUT').attr('method', 'POST');
-      console.log('first success form', $('form'));
+      // console.log('first success form', $('form'));
       //in order to update must get member info
       $.ajax({
         url: '/members/' + memberId,
@@ -376,14 +376,14 @@ var editMember = function editMember(cohortInfo) {
         dataType: 'json',
 
         success: function success(member) {
-          console.log('this is student get', member);
+          // console.log( 'this is student get' ,member );
           $('#first-name').attr('value', member.firstName);
           $('#last-name').attr('value', member.lastName);
           $('#nick-name').attr('value', member.nickName);
           $('#position').attr('value', member.position);
           $('#notes').attr('value', member.notes);
           var $form = $('form');
-          console.log($form);
+          // console.log($form)
           var $delete = $('<form>').attr('action', '/cohorts/' + cohortInfo.data.id + '/members/' + member._id + '?_method=DELETE').attr('method', 'POST');
           var $deleteBtn = $('<input>').attr('type', 'submit').addClass('btn').attr('value', 'delete forever');
           $delete.append($deleteBtn);
@@ -423,7 +423,7 @@ var newMember = { cohortId: $('.add-new-member').attr('id') };
 //works
 var newMemberForm = function newMemberForm() {
   var cohortId = $(this).attr('id');
-  console.log(cohortId);
+  // console.log(cohortId);
   $.ajax({
     url: '../html/new_member_form.html',
 
@@ -439,7 +439,7 @@ var newMemberForm = function newMemberForm() {
       var $submit = $('.submit');
       $submit.on('click', function (e) {
         e.preventDefault();
-        console.log('default prevented');
+        //  console.log( 'default prevented');
 
         var newMember = {
           cohortId: $('.add-new-member').attr('id'),
@@ -460,14 +460,14 @@ var newMemberForm = function newMemberForm() {
           dataType: 'json',
 
           success: function success(response) {
-            console.log('the data was created', response);
+            //  console.log ('the data was created' , response);
             window.cohortDashboard(newMember.cohortId);
           },
           error: function error(_error) {
             console.log('there was an error ', _error);
           },
           complete: function complete(xhr, status) {
-            console.log('The request is complete');
+            //  console.log ('The request is complete');
           }
         }); //closes closest ajax
       }); //closes on
