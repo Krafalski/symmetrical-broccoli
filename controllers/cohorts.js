@@ -25,15 +25,14 @@ cohorts.get( '/' , ( req , res ) => {
 
   Cohort.find( {} , ( error , foundCohorts) => {
     foundCohorts.sort(function(a, b) {
-  var nameA = a.name.toUpperCase(); // ignore upper and lowercase
-  var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+  let nameA = a.name.toUpperCase(); // ignore upper and lowercase
+  let nameB = b.name.toUpperCase(); // ignore upper and lowercase
   if (nameA < nameB) {
     return -1;
   }
   if (nameA > nameB) {
     return 1;
   }
-
   // names must be equal
   return 0;
 });
@@ -41,20 +40,18 @@ cohorts.get( '/' , ( req , res ) => {
   foundCohorts.forEach(function(cohort){
 
     cohort.members.sort(function(a, b) {
-  var nameA = a.firstName.toUpperCase(); // ignore upper and lowercase
-  var nameB = b.firstName.toUpperCase(); // ignore upper and lowercase
-  if (nameA < nameB) {
-    return -1;
-  }
-  if (nameA > nameB) {
-    return 1;
-  }
-
-  // names must be equal
-  return 0;
+      let nameA = a.firstName.toUpperCase(); // ignore upper and lowercase
+      let nameB = b.firstName.toUpperCase(); // ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      // names must be equal
+        return 0;
+    });
 });
-  })
-
 
     res.send (foundCohorts);
   });
@@ -72,8 +69,8 @@ cohorts.get ('/:id', ( req , res ) => {
     if  ( error ) { console.log ( error )}
 
     foundCohort.members.sort(function(a, b) {
-      var nameA = a.firstName.toUpperCase(); // ignore upper and lowercase
-      var nameB = b.firstName.toUpperCase(); // ignore upper and lowercase
+      let nameA = a.firstName.toUpperCase(); // ignore upper and lowercase
+      let nameB = b.firstName.toUpperCase(); // ignore upper and lowercase
       if (nameA < nameB) {
         return -1;
       }
@@ -81,9 +78,9 @@ cohorts.get ('/:id', ( req , res ) => {
         return 1;
       }
 
-  // names must be equal
-  return 0;
-});
+      // names must be equal
+      return 0;
+    });
     res.send( foundCohort );
   });
 });
@@ -100,11 +97,10 @@ cohorts.post ( '/' , ( req , res) => {
 // Edit   : GET
 // don't need it it is in the jQuery
 
-
 // Update : PUT    '/products/:id'
 cohorts.put ( '/:id' , ( req , res ) => {
   Cohort.findByIdAndUpdate (req.params.id , req.body, { new:  true },  ( err , cohort ) =>{
-    console.log ('updating',  req.body , cohort)
+    // console.log ('updating',  req.body , cohort)
     if ( err ) {console.log( err );}
        res.redirect ('/');
   });
@@ -113,8 +109,8 @@ cohorts.put ( '/:id' , ( req , res ) => {
 //Removes cohort and removes all associated members from the cohort array and from the members model/schema
 cohorts.delete('/:id', function(req, res){
   	Cohort.findByIdAndRemove(req.params.id, function(err, foundCohort){
-  		var memberIds = [];
-  		for (var i = 0; i < foundCohort.members.length; i++) {
+  		let memberIds = [];
+  		for (let i = 0; i < foundCohort.members.length; i++) {
   			memberIds.push(foundCohort.members[i]._id);
   		}
   		Member.remove(
@@ -129,15 +125,13 @@ cohorts.delete('/:id', function(req, res){
   			}
   		);
   	});
-  });
+});
 
 
 //http://stackoverflow.com/questions/15691224/mongoose-update-values-in-array-of-objects
 //Update Member, nested Route
 
 cohorts.put('/:id/members/:m_id', (req , res) => {
-
-
   Cohort.findOneAndUpdate({'members._id': req.params.m_id},{
     $set:{
       'members.$.firstName': req.body.firstName,
@@ -145,17 +139,9 @@ cohorts.put('/:id/members/:m_id', (req , res) => {
       'members.$.nickName':req.body.nickName ,
       'members.$.position': req.body.position,
       'members.$.notes':req.body.notes
-
-
      }}
 , ( err , foundMember)=>{
     if (err){console.log ( err )}
-    else{
-      // console.log ('found member?', foundMember)
-    }
-
-
-    //works
     //update member NOT within cohort
     Member.findByIdAndUpdate( req.params.m_id, req.body, {new: true} , ( err , foundMember) => {
       res.redirect('/');
@@ -167,35 +153,20 @@ cohorts.put('/:id/members/:m_id', (req , res) => {
 
 //Delete Member, nested route
 cohorts.delete('/:id/members/:m_id', (req , res) => {
-//   //remove member INSIDE cohort
-
+  //remove member INSIDE cohort
   Cohort.update({'members._id': req.params.m_id}, {$pull: {members: { _id : req.params.m_id }}}
 , ( err , foundMember ) => {
     if (err){
       console.log ( err ); }
     else{
       //remove member Not within Cohort
-
       Member.findByIdAndRemove( req.params.m_id, req.body , ( err , foundMember) => {
-        if (err){
-
-          console.log( err );
-        }
-
-        res.redirect('/')
-
-
+        if (err){  console.log( err ); }
+        res.redirect('/');
+      });
+    }
+  });
 });
-  }
-
-
-});
-
-
-
-});
-
-
 
 //------------------------
 // Module Exports
