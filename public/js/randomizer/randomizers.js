@@ -1,20 +1,20 @@
 //global values
-var select1 = "";
-var select2 = "";
+let select1 = "";
+let select2 = "";
 
-var randomOrder = function (){
+let randomOrder = function (){
   $('h3').remove();
   $('.group-div').remove();
-  var $students = $('li');
-  var $newOrder= [];
+  let $students = $('li');
+  let $newOrder= [];
   for (let i = 0; i < $students.length; i++){
     $newOrder.push($students.eq(i).text());
   }
-  var $ol = $( 'ol');
+  let $ol = $( 'ol');
   $ol.empty();
   shuffle($newOrder);
   $newOrder.forEach( s => {
-    var $li = $('<li>').text(s).toggleClass('not-participating', false).toggleClass('participating');
+    let $li = $('<li>').text(s).toggleClass('not-participating', false).toggleClass('participating');
     $li.click(function(li){
       $(this).toggleClass('not-participating');
       $(this).toggleClass('participating')
@@ -25,53 +25,53 @@ var randomOrder = function (){
 
 }
 
-var oneRandom = function (){
+let oneRandom = function (){
   $('h3').remove();
   $('.group-div').remove();
-  var $colFix = $( '.col-fix' );
+  let $colFix = $( '.col-fix' );
 
-  var $ol = $('ol');
-  var $students = $('.participating');
-  var winner = $students.eq(Math.floor(Math.random()*$students.length)).text();
-  var $winnerDiv = $('<div>');
-  var $h3 = $('<h3>').text('Congrats '+ winner + '!');
+  let $ol = $('ol');
+  let $students = $('.participating');
+  let winner = $students.eq(Math.floor(Math.random()*$students.length)).text();
+  let $winnerDiv = $('<div>');
+  let $h3 = $('<h3>').text('Congrats '+ winner + '!');
   $colFix.append($h3)
-  var $content = $('.content');
+  let $content = $('.content');
   $content.append($colFix);
 }
 
-var randomGroupsOptions = function (){
+let randomGroupsOptions = function (){
   $('h3').remove();
   $('.groups').remove();
   $('.options').remove();
-  var $colFix = $('.col-fix');
-  var $optionsDiv = $( '<div>' ).addClass('options')
+  let $colFix = $('.col-fix');
+  let $optionsDiv = $( '<div>' ).addClass('options')
   // .css('background-color', 'lightsalmon');
-  var $pairs = $('<button>').text('pairs');
+  let $pairs = $('<button>').text('pairs');
   $optionsDiv.append($pairs);
-  var $threes = $('<button>').text('threes');
+  let $threes = $('<button>').text('threes');
   $optionsDiv.append($threes);
-  var $fours = $('<button>').text('fours');
+  let $fours = $('<button>').text('fours');
   $optionsDiv.append($fours);
-  var $fives = $('<button>').text('fives');
+  let $fives = $('<button>').text('fives');
   $optionsDiv.append($fives);
-  var $customInput = $( '<input> ').attr('type', 'text').addClass('custom-input');
+  let $customInput = $( '<input> ').attr('type', 'text').addClass('custom-input');
   $optionsDiv.append($customInput);
-  var $custom = $('<button>').text('custom');
+  let $custom = $('<button>').text('custom');
   $optionsDiv.append($custom);
   $pairs.on('click', {size:2},groupSettings);
   $threes.on('click', {size:3},groupSettings);
   $fours.on('click', {size:4}, groupSettings);
   $fives.on('click', {size:5}, groupSettings);
   $custom.click(function (e) {
-    var customSizing ={};
+    let customSizing ={};
     customSizing.data ={};
     customSizing.data.size = parseInt($('input').val());
 
     groupSettings(customSizing);
     $('input').val('');
   });
-  var $content = $('.content');
+  let $content = $('.content');
   $optionsDiv.appendTo($content);
   $colFix.appendTo($content);
 
@@ -79,13 +79,13 @@ var randomGroupsOptions = function (){
 
 
 
-var groupSettings = function ( options ){
-  var size = options.data.size || options || 111;
+let groupSettings = function ( options ){
+  let size = options.data.size || options || 111;
   // console.log(size,options.data.size , options);
   $('h3').remove();
   $('.groups').remove();
-  var $students = $('.participating');
-  var students= [];
+  let $students = $('.participating');
+  let students= [];
   if(size > $students.length - size) {
     size = size -1;
   }
@@ -93,16 +93,16 @@ var groupSettings = function ( options ){
   for (let i = 0; i < $students.length; i++){
     students.push($students.eq(i).text());
   }
-  var studentLock = students.map(function (e) {return e});
-  var groups = makeAwesomeGroups(studentLock, size);
+  let studentLock = students.map(function (e) {return e});
+  let groups = makeAwesomeGroups(studentLock, size);
 
 
-  var $groups = $('<div>').addClass('groups');
+  let $groups = $('<div>').addClass('groups');
   groups.forEach(group=>{
-    var $groupDiv = $('<div>').addClass('group-div').css('border', '1px solid rgba(222, 229, 229, 1)');
-    var $ul = $('<ul>');
+    let $groupDiv = $('<div>').addClass('group-div').css('border', '1px solid rgba(222, 229, 229, 1)');
+    let $ul = $('<ul>');
     group.forEach(person=>{
-      var $li = $('<li>').text(person).addClass('swappable');
+      let $li = $('<li>').text(person).addClass('swappable');
       $li.on ('click', function (){
         if (!select1){
         $(this).toggleClass('selected');
@@ -110,7 +110,7 @@ var groupSettings = function ( options ){
       } else {
         //select 1 has a value
         select2 = $(this).text();
-        var temp = select2;
+        let temp = select2;
         select2 = $(this).text(select1);
         $('.selected').text(temp).removeClass('selected');
         select1 = "";
@@ -126,20 +126,20 @@ var groupSettings = function ( options ){
 
 }
 
-var reset = function (){
+let reset = function (){
   $('h3').remove();
   $('.groups').remove();
-  var $students = $('li');
-  var orderStudents = [];
+  let $students = $('li');
+  let orderStudents = [];
   for (let i = 0; i < $students.length; i++){
     orderStudents.push($students.eq(i).text());
   }
   orderStudents.sort();
   $('.rollcall').empty();
-  var $ol = $('<ol>')
+  let $ol = $('<ol>')
   $ol.appendTo($('.rollcall'));
   orderStudents.forEach( s => {
-    var $li = $('<li>').text(s).toggleClass('not-participating', false).toggleClass('participating');
+    let $li = $('<li>').text(s).toggleClass('not-participating', false).toggleClass('participating');
     $li.click(function(li){
       $(this).toggleClass('not-participating');
       $(this).toggleClass('participating')
@@ -149,21 +149,21 @@ var reset = function (){
 
 }
 
-var makeAwesomeGroups = function (classmates, size, ones){
+let makeAwesomeGroups = function (classmates, size, ones){
 
   //shuffle the students
   shuffle(classmates)
   //new array to hold new groups
-  var arrayOfAwesome = [];
+  let arrayOfAwesome = [];
   //array of small groups
-  var newBestFriends = [];
+  let newBestFriends = [];
   //make sure this is empty
-  var wholeClass = [];
-  //preserve original array (or could just store classmates.length in this variable)
+  let wholeClass = [];
+  //preserve original array (or could just store classmates.length in this letiable)
   wholeClass = classmates.map(function(e){
     return e;
   });
-  for (var i = 0; i < wholeClass.length/size; i++){
+  for (let i = 0; i < wholeClass.length/size; i++){
     //if we have an odd number of students, we will need one group of 3
 
 

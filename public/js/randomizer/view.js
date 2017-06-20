@@ -2,24 +2,24 @@ $('#random-order').ready(function (){
 
 });
 
-var loadRandomizer = function (data){
+let loadRandomizer = function (data){
   $.ajax({
     url: '../html/randomizer.html',
     type: 'GET',
     success: function ( response ){
 
       // window.history.pushState(data.data.id , null, 'randomizer/'+ data.data.name)
-        var html = response;
-        var $colFixDiv = $('<div>').addClass('col-fix');
+        let html = response;
+        let $colFixDiv = $('<div>').addClass('col-fix');
         $('.content').empty();
         $('.content').append(html);
         $('.content').append($colFixDiv)
 
 
 
-        var $randomOrderBtn = $('#random-order');
-        var $oneRandomBtn = $('#one-random');
-        var $resetBtn = $('#reset');
+        let $randomOrderBtn = $('#random-order');
+        let $oneRandomBtn = $('#one-random');
+        let $resetBtn = $('#reset');
         $randomOrderBtn.on('click', randomOrder
         );
         $oneRandomBtn.on('click', oneRandom);
@@ -34,13 +34,13 @@ var loadRandomizer = function (data){
           dataType: 'json',
 
           success: function ( response ){
-            var $h2 = $('h2').text(data.data.name)
+            let $h2 = $('h2').text(data.data.name)
             // console.log(response);
-            var $rollCall = $( '<div>' ).addClass( 'rollcall' );
-            var $ol = $('<ol>');
+            let $rollCall = $( '<div>' ).addClass( 'rollcall' );
+            let $ol = $('<ol>');
             //show members
             response.members.forEach((m) =>{
-              var $li = $('<li>').text (m.firstName).toggleClass('not-participating', false).toggleClass('participating');
+              let $li = $('<li>').text (m.firstName).toggleClass('not-participating', false).toggleClass('participating');
               $li.attr('member-id', m._id);
               $li.click(function(li){
                 $(this).toggleClass('not-participating');
@@ -48,7 +48,7 @@ var loadRandomizer = function (data){
               })
               $ol.append($li);
             });
-            var $rosterTitle = $( '<h3>').text('Roster');
+            let $rosterTitle = $( '<h3>').text('Roster');
             $rollCall.append( $rosterTitle );
             $rollCall.append($ol);
             $($colFixDiv).append($rollCall);
