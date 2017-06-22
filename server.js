@@ -16,8 +16,10 @@ const PORT                = process.env.PORT || 3000;
 //------------------------
 // Database
 //------------------------
+const MONGODB_URI        = process.env.MONGODB_URI || 'mongodb://localhost/student_randomizer';
+
 //connect to this database - don't forget to start 'mongod'
-mongoose.connect ( 'mongodb://localhost/student_randomizer');
+mongoose.connect ( MONGODB_URI );
 
 //set connection to variable for easy resuse
 const db                = mongoose.connection;
