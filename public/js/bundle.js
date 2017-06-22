@@ -63,12 +63,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 11);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
-/* 0 */,
-/* 1 */
+/* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -95,7 +94,7 @@ var editCohortName = function editCohortName(cohort) {
 window.editCohortName = editCohortName;
 
 /***/ }),
-/* 2 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -186,7 +185,7 @@ var list = function list() {
 window.list = list;
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -245,7 +244,7 @@ var newCohortForm = function newCohortForm() {
 window.newCohortForm = newCohortForm;
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -281,7 +280,7 @@ var cohortDashboard = function cohortDashboard(cohortID) {
 
       //
       $content.append($addNewMember);
-      var $ul = $('<ul>');
+      var $ol = $('<ol>');
       var $twoCols = $('<div>').addClass('two-cols');
       var $rollCall = $('<div>').addClass('rollcall');
       var $actions = $('<div>').addClass('actions');
@@ -299,12 +298,12 @@ var cohortDashboard = function cohortDashboard(cohortID) {
         var $li = $('<li>').text(m.firstName);
         $li.attr('member-id', m._id);
         $li.on('click', { id: response._id }, editMember);
-        $ul.append($li);
+        $ol.append($li);
       });
       // console.log(members)
       var $rosterTitle = $('<h3>').text('Roster');
       $rollCall.append($rosterTitle);
-      $rollCall.append($ul);
+      $rollCall.append($ol);
 
       $twoCols.append($rollCall, $actions);
       $content.append($twoCols);
@@ -314,7 +313,7 @@ var cohortDashboard = function cohortDashboard(cohortID) {
       $content.prepend($h2);
     },
     error: function error(_error) {
-      console.log('there was an error ');
+      console.log('there was an error ', _error);
     },
     complete: function complete(xhr, status) {
       // console.log ('The request is complete');
@@ -326,7 +325,7 @@ var cohortDashboard = function cohortDashboard(cohortID) {
 window.cohortDashboard = cohortDashboard;
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -389,7 +388,7 @@ var editMember = function editMember(cohortInfo) {
 window.editMember = editMember;
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -463,7 +462,7 @@ var newMemberForm = function newMemberForm() {
 window.newMemberForm = newMemberForm;
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -486,7 +485,7 @@ function shuffle(array) {
 window.shuffle = shuffle;
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -697,7 +696,7 @@ window.randomGroupsOptions = randomGroupsOptions;
 window.reset = reset;
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -773,7 +772,7 @@ var loadRandomizer = function loadRandomizer(data) {
 window.loadRandomizer = loadRandomizer;
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -839,7 +838,7 @@ function loadWhiteboard(data) {
 window.loadWhiteboard = loadWhiteboard;
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -852,20 +851,20 @@ window.loadWhiteboard = loadWhiteboard;
 // require ('./ajax_test');
 
 //get functionality of cohorts CRUD- create read (index, show) update destroy
+__webpack_require__(1);
 __webpack_require__(2);
 __webpack_require__(3);
-__webpack_require__(4);
-__webpack_require__(1);
+__webpack_require__(0);
 
 //get functionality of members CRUD- create read (index, show) update destroy
-__webpack_require__(6);
 __webpack_require__(5);
+__webpack_require__(4);
 
 //get functionality of whiteboard feature
-__webpack_require__(10);
+__webpack_require__(9);
+__webpack_require__(6);
 __webpack_require__(7);
 __webpack_require__(8);
-__webpack_require__(9);
 
 //on document ready :
 $(function () {

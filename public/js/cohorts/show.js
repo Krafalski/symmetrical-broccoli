@@ -70,7 +70,7 @@ var cohortDashboard  = function (cohortID) {
 
       },
       error: function ( error ) {
-        console.log ( 'there was an error ' );
+        console.log ( 'there was an error ' , error );
       },
       complete: function (xhr , status) {
           // console.log ('The request is complete');
