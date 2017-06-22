@@ -28,7 +28,7 @@ var cohortDashboard  = function (cohortID) {
 
         //
         $content.append($addNewMember);
-        var $ul = $( '<ul>');
+        var $ol = $( '<ol>');
         var $twoCols  = $( '<div>' ).addClass( 'two-cols' );
         var $rollCall = $( '<div>' ).addClass( 'rollcall' );
         var $actions  = $( '<div>' ).addClass ('actions' );
@@ -48,14 +48,14 @@ var cohortDashboard  = function (cohortID) {
           var $li = $('<li>').text (m.firstName);
           $li.attr('member-id', m._id);
           $li.on('click',{id: response._id}, editMember);
-          $ul.append($li);
+          $ol.append($li);
 
 
         });
         // console.log(members)
         var $rosterTitle = $( '<h3>').text('Roster');
         $rollCall.append( $rosterTitle );
-        $rollCall.append($ul);
+        $rollCall.append($ol);
 
         $twoCols.append( $rollCall, $actions );
         $content.append($twoCols);
