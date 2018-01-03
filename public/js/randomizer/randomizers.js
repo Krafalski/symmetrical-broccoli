@@ -193,7 +193,7 @@ let makeAwesomeGroups = function (classmates, size, ones){
        }
        //sort array alphabetically
        newBestFriends = newBestFriends.sort();
-      //add pairs
+      //add groups
         arrayOfAwesome.push(newBestFriends);
       //reset newBestFriends
         newBestFriends = [];
