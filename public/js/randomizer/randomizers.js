@@ -185,7 +185,7 @@ let makeAwesomeGroups = function (classmates, size, ones){
       break;
     }
     else{
-       //pop off three students from shuffled students array
+       //pop off inidcated size of students from shuffled students array
 
        for (let j = 0; j < size; j++){
 
